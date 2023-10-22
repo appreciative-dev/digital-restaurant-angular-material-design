@@ -1,0 +1,48 @@
+{
+  "BUTTON": {
+    "ADD": "Add",
+    "SAVE": "Save",
+    "EDIT": "Edit",
+    "DELETE": "Delete"
+  },
+  "RECIPES": {
+    "NAVBAR": "Recipes",
+    "PAGE": {
+      "LIST": {
+        "TOOLBAR": "Recipe list"
+      },
+      "CREATE": {
+        "TOOLBAR": "Create recipe"
+      },
+      "EDIT": {
+        "TOOLBAR": "Edit recipe"
+      },
+      "DETAIL": {
+        "TOOLBAR": "Recipe detail"
+      }
+    }
+  },
+
+  "EXPENSES": {
+    "NAVBAR": "Expenses",
+    "PAGE": {
+      "LIST": {
+        "TOOLBAR": "Expenses",
+        "TABLE": {
+          "SEARCH": "Search by name",
+          "WAITER": "Mesero",
+          "TIME": "Tiempo",
+          "VALUE": "Valor",
+          "DESCRIPTION": "Decripcíon"
+        }
+      },
+      "DIALOG": {
+        "TITLE": "Agregar gasto",
+        "FORM": {
+          "DESCRIPTION": "Descripción",
+          "VALUE": "Valor"
+        }
+      }
+    }
+  }
+}

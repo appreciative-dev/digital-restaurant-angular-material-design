@@ -1,0 +1,71 @@
+<mat-tab-group>
+  <mat-tab label="Usuarios">
+    <mat-table [dataSource]="userListObs | async">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.displayName }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.email }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="timestamp">
+        <mat-header-cell *matHeaderCellDef> Creado </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ moment.unix(element.timestamp / 1000).format("DD/MM/YYYY:HH:mm") }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Bloqear</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="block(element)">
+            <mat-icon>no_accounts</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="userSourceColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: userSourceColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="Bloqueados">
+    <!-- <mat-table [dataSource]="candidateSource" class="table">
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef >
+          Nombre
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="add">
+        <mat-header-cell *matHeaderCellDef >Añadir</mat-header-cell>
+        <mat-cell *matCellDef="let element" >
+          <button mat-icon-button (click)="addCandidate(element)">
+            <mat-icon>done</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef >Quitar</mat-header-cell>
+        <mat-cell *matCellDef="let element" >
+          <button mat-icon-button (click)="deleteCandidate(element)">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="candidateSourceColumns"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: candidateSourceColumns"></mat-row>
+    </mat-table> -->
+  </mat-tab>
+</mat-tab-group>

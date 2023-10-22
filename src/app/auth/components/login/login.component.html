@@ -1,0 +1,94 @@
+<ng-container *ngIf="!userDisplayName && hasFirebasAuth">
+  <h4>Elige tu proveedor de datos para iniciar registro?</h4>
+
+  <button
+    class="social-button"
+    mat-stroked-button
+    (click)="login(AUTH_PROVIDER.GOOGLE)"
+  >
+    Google
+  </button>
+  <button
+    class="social-button"
+    mat-stroked-button
+    (click)="login(AUTH_PROVIDER.FACEBOOK)"
+  >
+    Facebook
+  </button>
+
+  <div class="auth-desc">
+    <p>
+      App guarda la sesion del usuario con OAuth 2 y no comparta los datos
+      personales como correo electronico, nombre del usuario y historial de las
+      ordenes con otros servicios.
+    </p>
+    <p>
+      OAuth 2 es una estructura de autorización que le permite a las
+      aplicaciones obtener acceso limitado a cuentas de usuario en un servicio
+      HTTPS, como Facebook y Google. Delega la autenticación del usuario al
+      servicio que aloja la cuenta del mismo y autoriza a las aplicaciones de
+      terceros el acceso a dicha cuenta de usuario.
+    </p>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="userDisplayName && hasFirebasAuth">
+  <h4>¡Hola, {{ userDisplayName }}!</h4>
+  <h5>Tu cuenta sera revisada</h5>
+  <p style="margin: 10px 0">
+    Contactate nosotros desde 10 a.m en restaurante o llama a celular phone.
+  </p>
+  <button mat-stroked-button class="login-button" routerLink="/auth/profile">
+    Mirar el perfil
+  </button>
+</ng-container>
+
+<ng-container *ngIf="false">
+  <h4>¡Hola, {{ userDisplayName }}!</h4>
+  <button mat-stroked-button class="login-button" routerLink="/waiter/menu">
+    Ir a domicilios
+  </button>
+  <button mat-stroked-button class="employee-button" routerLink="/auth/profile">
+    Mirar el perfil
+  </button>
+</ng-container>
+
+<ng-container *ngIf="hasAuthError()">
+  <div class="request-error-message">
+    <span *ngIf="hasFacebookError">
+      Se produjo un error durante el registro de Facebook. Intente con Google o
+      inicie otra sesión más tarde.
+    </span>
+    <span *ngIf="hasGoogleError">
+      Se produjo un error durante el registro de Google. Intente con Facebook o
+      inicie otra sesión más tarde.
+    </span>
+    <span *ngIf="hasFacebookSameAccountError">
+      Ya existe una cuenta con la misma dirección de correo electrónico pero
+      diferentes credenciales de inicio de sesión. Inicie sesión con un Google o
+      contacte soporte del restaurante para solicionar el error.
+    </span>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="false">
+  <h3 class="register-title" style="text-align: center">
+    ¡Bienvenido, {{ userDisplayName }}!
+  </h3>
+  <div style="margin-top: 30px"></div>
+  <button mat-stroked-button class="login-button">
+    Continuar como cliente
+  </button>
+  <div style="margin-top: 20px"></div>
+  <button mat-stroked-button class="employee-button">
+    Continuar como empleado
+  </button>
+</ng-container>
+
+<ng-container *ngIf="false">
+  <h3 class="register-title">¡Gracias, ! Prueba la ap en manera sencilla.</h3>
+  <br />
+  <button mat-stroked-button class="login-button" routerLink="/waiter/menu">
+    CONTINUAR
+  </button>
+</ng-container>

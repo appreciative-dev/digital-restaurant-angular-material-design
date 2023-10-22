@@ -1,0 +1,271 @@
+<div class="menu-del-dia">
+  <div class="toolbar-padding" *ngIf="isMenuUpdated">
+    <button mat-stroked-button (click)="save()" style="min-width: 100%">
+      <span style="color: rgb(99, 153, 253); text-transform: uppercase">
+        Continuar
+      </span>
+      <mat-icon style="color: rgb(99, 153, 253)">arrow_forward</mat-icon>
+    </button>
+  </div>
+
+  <div class="close-title" *ngIf="hasEmptyMenu" [@fadeInOnEnter]>
+    Ahora el servicio está cerrado
+  </div>
+
+  <div class="close-subtitle" *ngIf="hasEmptyMenu" [@fadeInOnEnter]>
+    El menú estará disponible apartir de las 10 a.m.
+  </div>
+
+  <div style="padding-top: 10px" *ngIf="isMenuUpdated">
+    <mat-chip-listbox>
+      <mat-chip-option
+        style="color: white; background-color: sandybrown"
+        *ngFor="let item of plateList"
+        selected="true"
+        removable="true"
+        (removed)="removeItem(item)"
+        [@rubberBandOnEnter]
+      >
+        <span>{{ item.name }}</span>
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip-option>
+
+      <mat-chip-option
+        style="color: white; background-color: rgb(99, 153, 253)"
+        *ngFor="let item of barList"
+        selected="true"
+        removable="true"
+        (removed)="removeBarItem(item)"
+        [@rubberBandOnEnter]
+      >
+        <span>{{ item.name }}</span>
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+
+  <div *ngIf="isMenuUpdated" [@fadeInOnEnter]>
+    <mat-tab-group [@.disabled]="true">
+      <mat-tab label="Menú del Día">
+        <table style="width: 100%; margin-top: 5px">
+          <colgroup>
+            <col span="1" style="width: 10%" />
+            <col span="1" style="width: 55%" />
+            <col span="1" style="width: 20%" />
+            <col span="1" style="width: 15%" />
+          </colgroup>
+          <tbody>
+            <tr *ngFor="let item of menuTableArray; let i = index">
+              <th
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  flex-direction: column;
+                  padding-top: 2px;
+                "
+              >
+                <span *ngIf="item.plato.proteinCategory == 'Carne'"
+                  ><img [src]="meatImg" width="65%" height="25%"
+                /></span>
+                <span *ngIf="item.plato.proteinCategory == 'Pollo'"
+                  ><img [src]="chickenImg" width="65%" height="25%"
+                /></span>
+                <span *ngIf="item.plato.proteinCategory == 'Pescado'"
+                  ><img [src]="fishImg" width="65%" height="25%"
+                /></span>
+                <span *ngIf="item.plato.proteinCategory == 'Vegetariano'"
+                  ><img [src]="vegImg" width="65%" height="25%"
+                /></span>
+                <span *ngIf="item.plato.proteinCategory == 'Sin categoria'"
+                  ><img [src]="commonImg" width="65%" height="25%"
+                /></span>
+              </th>
+              <td>
+                <div
+                  (click)="openDetail(item.plato, i)"
+                  [style.text-decoration]="
+                    item.plato?.isRemoved ? 'line-through' : 'none'
+                  "
+                  class="plate-title"
+                >
+                  {{ item.plato.name }}
+                </div>
+              </td>
+              <td style="position: relative">
+                <div
+                  style="
+                    color: #666;
+                    min-width: 100%;
+                    text-align: right;
+                    font-size: 1em !important;
+                    position: absolute;
+                    top: 5px;
+                  "
+                  *ngIf="!item.plato.isRemoved"
+                >
+                  {{ item.plato.price }} MIL
+                </div>
+                <div
+                  style="
+                    color: #666;
+                    min-width: 100%;
+                    text-align: right;
+                    font-size: 1em !important;
+                    position: absolute;
+                    top: 5px;
+                  "
+                  *ngIf="item.plato.isRemoved"
+                >
+                  AGOTADO
+                </div>
+              </td>
+              <td style="position: relative" *ngIf="!item.plato.isRemoved">
+                <button
+                  mat-icon-button
+                  (click)="addItem(item.plato)"
+                  style="position: absolute; top: -5px"
+                >
+                  <mat-icon class="add-button">add</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="topping-title" style="margin-top: 20px">Entradas</div>
+        <div *ngFor="let item of entradaList; let i = index">
+          <div
+            class="topping-item-name"
+            (click)="openEntradaDetail(item, i)"
+            [style.text-decoration]="item?.isRemoved ? 'line-through' : 'none'"
+            [style.color]="item?.isRemoved ? '#888' : 'rgb(99, 153, 253)'"
+          >
+            {{ item?.name }}
+          </div>
+          <div class="topping-item-history">{{ item?.history }}</div>
+        </div>
+        <div class="topping-title">Acompañamientos</div>
+        <div *ngFor="let item of toppingList; let i = index">
+          <div
+            class="topping-item-name"
+            (click)="openEntradaDetail(item, i)"
+            [style.text-decoration]="item?.isRemoved ? 'line-through' : 'none'"
+            [style.color]="item?.isRemoved ? '#888' : 'rgb(99, 153, 253)'"
+          >
+            {{ item?.name }}
+          </div>
+          <div class="topping-item-history">{{ item?.history }}</div>
+        </div>
+        <div class="topping-title">Bebidas</div>
+        <div *ngFor="let item of bebidaList; let i = index">
+          <div
+            class="topping-item-name"
+            (click)="openEntradaDetail(item, i)"
+            [style.text-decoration]="item?.isRemoved ? 'line-through' : 'none'"
+            [style.color]="item?.isRemoved ? '#888' : 'rgb(99, 153, 253)'"
+          >
+            {{ item?.name }}
+          </div>
+          <div class="topping-item-history">{{ item?.history }}</div>
+        </div>
+        <div class="topping-title">Postre</div>
+        <div
+          class="topping-item-name"
+          (click)="openEntradaDetail(postreItem, 'Postre')"
+          [style.text-decoration]="
+            postreItem?.isRemoved ? 'line-through' : 'none'
+          "
+          [style.color]="postreItem?.isRemoved ? '#888' : 'rgb(99, 153, 253)'"
+        >
+          {{ postreItem?.name }}
+        </div>
+        <div class="topping-item-history">{{ postreItem?.histrory }}</div>
+      </mat-tab>
+
+      <mat-tab label="Adicional">
+        <table style="width: 100%; margin-top: 1px">
+          <colgroup>
+            <col span="1" style="width: 65%" />
+            <col span="1" style="width: 20%" />
+            <col span="1" style="width: 15%" />
+          </colgroup>
+          <tbody>
+            <tr *ngFor="let item of barTableArray">
+              <td style="position: relative">
+                <div class="plate-title">
+                  {{ item.name }}
+                </div>
+              </td>
+              <td style="position: relative">
+                <div
+                  style="
+                    color: #666;
+                    min-width: 100%;
+                    text-align: right;
+                    font-size: 1em !important;
+                  "
+                  *ngIf="!item.isRemoved"
+                >
+                  {{ item.price }} MIL
+                </div>
+              </td>
+              <td style="position: relative">
+                <button mat-icon-button (click)="addBarItem(item)">
+                  <mat-icon class="add-button">add</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-tab>
+    </mat-tab-group>
+
+    <div
+      style="
+        text-align: center;
+        min-width: 100%;
+        margin-top: 80px;
+        padding: 0 5%;
+      "
+    >
+      <div style="text-align: center; color: rgb(73, 90, 100)">
+        <div
+          style="
+            font-size: 13pt !important;
+
+            font-weight: 600;
+          "
+        >
+          Smart Restaurant
+        </div>
+        <div
+          style="
+            font-size: 13pt !important;
+
+            padding-bottom: 10px;
+          "
+        >
+          deli foodies
+        </div>
+        <div
+          style="
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+            margin: 0 20%;
+          "
+        ></div>
+
+        <div
+          style="
+            font-size: 11pt !important;
+
+            padding-top: 10px;
+          "
+        >
+          address
+        </div>
+        <div style="font-size: 11pt !important">phone</div>
+      </div>
+    </div>
+  </div>
+</div>

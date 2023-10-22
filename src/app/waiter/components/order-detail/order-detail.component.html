@@ -1,0 +1,276 @@
+<div class="toolbar-padding" *ngIf="isUserEmployee && !isRejected">
+  <button
+    mat-stroked-button
+    (click)="redirect('order-list', 'Historial de las ordenes')"
+    style="min-width: 48%; color: #444"
+  >
+    <mat-icon>playlist_add_check</mat-icon>
+    <span style="font-size: 1em; padding-left: 10px">Historial</span>
+  </button>
+  <button
+    mat-stroked-button
+    style="
+      margin-left: 4%;
+      min-width: 48%;
+      color: rgb(99, 153, 253);
+      border: 2px solid rgb(99, 153, 253);
+    "
+    (click)="deliveryOrder()"
+    *ngIf="isConfirmed && !isDelivered && isDeliveryOrder"
+  >
+    <mat-icon>directions_bike</mat-icon>
+    <span style="font-size: 1em; padding-left: 10px">Entregar</span>
+  </button>
+  <button
+    mat-stroked-button
+    style="
+      margin-left: 4%;
+      min-width: 48%;
+      color: sandybrown;
+      border: 2px solid sandybrown;
+    "
+    (click)="cancelOrder()"
+    *ngIf="isConfirmed && isDelivered && isDeliveryOrder"
+  >
+    <mat-icon>done</mat-icon>
+    <span style="font-size: 1em; padding-left: 10px">Cancelar</span>
+  </button>
+  <button
+    mat-stroked-button
+    style="
+      margin-left: 4%;
+      min-width: 48%;
+      color: sandybrown;
+      border: 2px solid sandybrown;
+    "
+    (click)="cancelOrder()"
+    *ngIf="isTableOrder && !isPaid"
+  >
+    <mat-icon>done</mat-icon>
+    <span style="font-size: 1em; padding-left: 10px">Cancelar</span>
+  </button>
+</div>
+
+<div class="order-confirmed-status" *ngIf="isConfirmed && !isDelivered">
+  <mat-icon style="font-weight: 500; min-height: 100%">done</mat-icon>
+  <span style="min-height: 100%; display: initial; padding-left: 10px"
+    >La orden se ha confirmado.</span
+  >
+</div>
+
+<div
+  class="order-deliver-status"
+  *ngIf="isDelivered && isDeliveryOrder"
+  [@fadeInLeftOnEnter]
+>
+  <mat-icon style="font-weight: 500; min-height: 100%"
+    >directions_bike</mat-icon
+  >
+  <span style="min-height: 100%; display: initial; padding-left: 10px"
+    >La orden esta entregando ..</span
+  >
+</div>
+
+<div class="order-paid-status" *ngIf="isPaid" [@fadeInLeftOnEnter]>
+  <mat-icon style="font-weight: 500; min-height: 100%"
+    >account_balance_wallet</mat-icon
+  >
+  <span style="min-height: 100%; display: initial; padding-left: 10px"
+    >La orden se ha cancelado.</span
+  >
+</div>
+
+<div class="order-reject-status" *ngIf="isRejected" [@fadeInLeftOnEnter]>
+  <mat-icon style="font-weight: 500; min-height: 100%">clear</mat-icon>
+  <span style="min-height: 100%; display: initial; padding-left: 10px"
+    >La orden se ha anulado.</span
+  >
+</div>
+
+<mat-card *ngIf="isReadyToAppear">
+  <div *ngIf="isTableOrder">
+    <div class="item-center-title">SALA</div>
+    <div class="item-title">Mesa</div>
+    <div class="item-desc">{{ tableNumber }}</div>
+    <br />
+    <div *ngIf="client?.name">
+      <div class="item-title">Nombre</div>
+      <div class="item-desc">{{ client?.name }}</div>
+      <br />
+      <div class="item-title">Celular</div>
+      <div class="item-desc">{{ client?.phone }}</div>
+      <br />
+    </div>
+    <div class="item-title">Forma de pago</div>
+    <div class="item-desc">
+      <span *ngIf="paymentType == 'CASH'">Efectivo</span>
+      <span *ngIf="paymentType == 'CARD'">Tarjeta</span>
+    </div>
+  </div>
+
+  <div *ngIf="isDeliveryOrder">
+    <div class="item-center-title">DOMICILIO</div>
+    <div class="row">
+      <div class="col-9">
+        <div class="item-title">Nombre</div>
+        <div class="item-desc">{{ client?.name }}</div>
+      </div>
+      <div class="col-3">
+        <div
+          style="text-align: center"
+          *ngIf="isAdmin && isButtonReadyToAppear"
+        >
+          <button
+            mat-icon-button
+            style="color: rgb(99, 153, 253); border: none"
+            (click)="addNewClient()"
+            *ngIf="!isOldClient"
+          >
+            <mat-icon>person_add</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            style="color: #ccc; border: none"
+            (click)="showCheckedClient('old')"
+            *ngIf="isOldClient"
+          >
+            <mat-icon>how_to_reg</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-9">
+        <div class="item-title">Dirección</div>
+        <div class="item-desc">{{ client?.address }}</div>
+      </div>
+      <div class="col-3">
+        <div style="text-align: center">
+          <button
+            mat-icon-button
+            style="color: #ccc; border: none"
+            (click)="copyAddress()"
+          >
+            <mat-icon>file_copy</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-9">
+        <div class="item-title">Teléfono</div>
+        <div class="item-desc">{{ client?.phone }}</div>
+      </div>
+      <div class="col-3">
+        <div style="text-align: center">
+          <button
+            mat-icon-button
+            style="color: #ccc; border: none"
+            (click)="copyPhone()"
+          >
+            <mat-icon>file_copy</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="item-title">Forma de pago</div>
+    <div class="item-desc">
+      <span *ngIf="paymentType == 'CASH'">Efectivo</span>
+      <div *ngIf="change">
+        <br />
+        <div class="item-title">Nominación de billete</div>
+        <div class="item-desc">
+          <span *ngIf="change == 'Cantidad exacto'">Cantidad exacto</span>
+          <span *ngIf="change == '10 mil pesos'">10 mil pesos</span>
+          <span *ngIf="change == '20 mil pesos'">20 mil pesos</span>
+          <span *ngIf="change == '50 mil pesos'">50 mil pesos</span>
+          <span *ngIf="change == '100 mil pesos'">100 mil pesos</span>
+        </div>
+      </div>
+      <span *ngIf="paymentType == 'CARD'">Tarjeta</span>
+      <span *ngIf="paymentType == 'QR'">QR</span>
+    </div>
+
+    <br />
+    <div *ngIf="deliveryTime">
+      <div class="item-title">Hora de entrega</div>
+      <div class="item-desc">{{ deliveryTime }}</div>
+    </div>
+    <div *ngIf="comments">
+      <br />
+      <div class="item-title">Comentarios</div>
+      <div class="item-desc">{{ comments }}</div>
+    </div>
+  </div>
+
+  <br />
+  <div class="item-title">Fecha y hora de pedido</div>
+  <div class="item-desc">
+    {{ orderTime.toDate() | date : 'MMMM d, y, h:mm a' }}
+  </div>
+  <br />
+
+  <div
+    *ngFor="let element of menuSource.data"
+    style="border-top: 1px #888 solid; padding-top: 5px"
+  >
+    <div class="plate-title">
+      {{ element.plato?.name }}
+    </div>
+
+    <div class="plate-desc">
+      Entrada: <strong>{{ element.entrada?.name }}</strong>
+      <br />
+      Bebida: <strong>{{ element.bebida?.name }}</strong>
+      <br />
+      <div *ngIf="element.ensalada?.name == 'NA'">
+        <strong>- sin ensalada</strong>
+      </div>
+      <div *ngIf="element.garnish?.name == 'NA'">
+        <strong>- sin guarnición</strong>
+      </div>
+      <div *ngIf="element.rice?.name == 'NA'">
+        <strong>- sin arroz</strong>
+      </div>
+      <div *ngIf="element.postre?.name == 'NA'">
+        <strong>- sin postre</strong>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="barList.length > 0" style="margin: 10px 0">
+    <div class="item-title">Adicionales</div>
+    <div>
+      <span
+        *ngFor="let item of barList"
+        class="item-desc"
+        style="color: rgb(99, 153, 253)"
+        >{{ item.name }},
+      </span>
+    </div>
+  </div>
+
+  <div class="price-card">{{ totalPrice }} MIL</div>
+
+  <div class="row">
+    <div class="col">
+      <div class="item-title" style="margin-top: 10px">Mesero</div>
+      <span class="item-desc">{{ waiter?.name }}</span>
+    </div>
+    <div class="col">
+      <div class="item-title" *ngIf="deliveryPrice">Domicilio</div>
+      <span class="item-desc" *ngIf="deliveryPrice"
+        >{{ deliveryPrice }} mil pesos</span
+      >
+      <div class="item-title" *ngIf="discountPrice">Descuento</div>
+      <span class="item-desc" *ngIf="discountPrice"
+        >{{ discountPrice }} mil pesos</span
+      >
+      <div class="item-title" style="margin-top: 10px">TOTAL</div>
+      <span class="item-desc">{{ totalPrice }} mil pesos</span>
+    </div>
+  </div>
+</mat-card>

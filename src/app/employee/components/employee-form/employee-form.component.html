@@ -1,0 +1,60 @@
+<div class="toolbar-padding">
+  <button
+    mat-stroked-button
+    (click)="redirect('employeelist', 'Empleados')"
+    style="min-width: 100%; color: rgb(99, 153, 253)"
+  >
+    <mat-icon>arrow_back</mat-icon>
+    <span style="padding-left: 10px">Empleados</span>
+  </button>
+  <div
+    style="color: seagreen; font-weight: 500; text-align: center"
+    *ngIf="isCreated"
+  >
+    Empleado se ha guardado con exito!
+  </div>
+</div>
+
+<div style="text-align: right; min-width: 100%">
+  <div style="color: seagreen; font-weight: 500" *ngIf="isLoaded">
+    Actualizado con exito!
+  </div>
+</div>
+
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="save(form)">
+    <mat-form-field class="example-full-width">
+      <input matInput type="text" placeholder="Nombre" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input
+        matInput
+        type="text"
+        placeholder="Celular"
+        formControlName="phone"
+      />
+    </mat-form-field>
+
+    <mat-radio-group class="example-radio-group" formControlName="role">
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let role of roles"
+        [value]="role"
+      >
+        {{ role }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <div style="text-align: right">
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="!form.valid"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</mat-card>

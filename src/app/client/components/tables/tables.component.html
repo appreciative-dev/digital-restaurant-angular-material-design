@@ -1,0 +1,235 @@
+<div style="margin-top: 10px">
+  <div fxLayout="collumn" fxLayoutAlign="space-between">
+    <div
+      class="room-sala"
+      (click)="chooseRoom('Sala')"
+      [ngStyle]="
+        isRoomSala
+          ? { border: '3px solid seagreen' }
+          : { border: '1px solid seagreen' }
+      "
+    >
+      Sala
+    </div>
+    <div
+      class="room-terraza"
+      (click)="chooseRoom('Terraza')"
+      [ngStyle]="
+        isRoomTerraza
+          ? { border: '3px solid slateblue' }
+          : { border: '1px solid slateblue' }
+      "
+    >
+      Terraza
+    </div>
+    <div
+      class="room-cafe"
+      (click)="chooseRoom('Barra')"
+      [ngStyle]="
+        isRoomBarra
+          ? { border: '3px solid hotpink' }
+          : { border: '1px solid hotpink' }
+      "
+    >
+      Barra
+    </div>
+  </div>
+
+  <div *ngIf="isRoomSala" class="table-container">
+    <div class="space-around">
+      <div
+        class="table"
+        (click)="chooseTable(1)"
+        [ngStyle]="{ border: salaTables.sala_1 }"
+      >
+        1
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(2)"
+        [ngStyle]="{ border: salaTables.sala_2 }"
+      >
+        2
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(3)"
+        [ngStyle]="{ border: salaTables.sala_3 }"
+      >
+        3
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(4)"
+        [ngStyle]="{ border: salaTables.sala_4 }"
+      >
+        4
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(5)"
+        [ngStyle]="{ border: salaTables.sala_5 }"
+      >
+        5
+      </div>
+    </div>
+
+    <div class="space-around">
+      <div class="no-table"></div>
+
+      <div
+        class="table"
+        (click)="chooseTable(6)"
+        [ngStyle]="{ border: salaTables.sala_6 }"
+      >
+        6
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(7)"
+        [ngStyle]="{ border: salaTables.sala_7 }"
+      >
+        7
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(8)"
+        [ngStyle]="{ border: salaTables.sala_8 }"
+      >
+        8
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(9)"
+        [ngStyle]="{ border: salaTables.sala_9 }"
+      >
+        9
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isRoomTerraza" class="table-container">
+    <div class="space-around">
+      <div
+        class="table"
+        (click)="chooseTable(11)"
+        [ngStyle]="{ border: terrazaTables.terraza_11 }"
+      >
+        11
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(12)"
+        [ngStyle]="{ border: terrazaTables.terraza_12 }"
+      >
+        12
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(13)"
+        [ngStyle]="{ border: terrazaTables.terraza_13 }"
+      >
+        13
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(14)"
+        [ngStyle]="{ border: terrazaTables.terraza_14 }"
+      >
+        14
+      </div>
+    </div>
+
+    <div class="space-around">
+      <div
+        class="table"
+        (click)="chooseTable(10)"
+        [ngStyle]="{ border: terrazaTables.terraza_10 }"
+      >
+        10
+      </div>
+
+      <div class="no-table"></div>
+
+      <div class="no-table"></div>
+
+      <div class="no-table"></div>
+    </div>
+  </div>
+
+  <div *ngIf="isRoomBarra" class="table-container">
+    <div class="space-around">
+      <div
+        class="table"
+        (click)="chooseTable(15)"
+        [ngStyle]="{ border: barraTables.barra_15 }"
+      >
+        15
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(16)"
+        [ngStyle]="{ border: barraTables.barra_16 }"
+      >
+        16
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(17)"
+        [ngStyle]="{ border: barraTables.barra_17 }"
+      >
+        17
+      </div>
+
+      <div
+        class="table"
+        (click)="chooseTable(18)"
+        [ngStyle]="{ border: barraTables.barra_18 }"
+      >
+        18
+      </div>
+    </div>
+
+    <div class="space-around">
+      <div
+        class="table"
+        (click)="chooseTable(20)"
+        [ngStyle]="{ border: barraTables.barra_20 }"
+      >
+        20
+      </div>
+
+      <div class="no-table"></div>
+
+      <div
+        class="table"
+        (click)="chooseTable(19)"
+        [ngStyle]="{ border: barraTables.barra_19 }"
+      >
+        19
+      </div>
+
+      <div class="no-table"></div>
+    </div>
+  </div>
+
+  <div
+    class="table-takeout"
+    (click)="chooseTable(0)"
+    [ngStyle]="{ border: tableTakeout }"
+  >
+    Recojer
+  </div>
+</div>

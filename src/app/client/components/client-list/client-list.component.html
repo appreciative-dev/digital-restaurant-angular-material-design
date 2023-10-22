@@ -1,0 +1,44 @@
+<div class="header-toolbar">
+  <app-button
+    [title]="'BUTTON.ADD'"
+    [icon]="'add'"
+    [type]="'back'"
+    [url]="'/client/create'"
+  ></app-button>
+  <input
+    class="list-search-field"
+    [formControl]="searchControl"
+    [placeholder]="'CLIENTS.PAGE.LIST.TABLE.SEARCH' | translate"
+  />
+</div>
+
+<ng-container *ngIf="dataSourceObs | async as data; else loadingTemplate">
+  <mat-table [dataSource]="data">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>
+        {{ 'CLIENTS.PAGE.LIST.TABLE.NAME' | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div class="table-link" [routerLink]="['/client/detail', element.id]">
+          <span [ngStyle]="{ 'color: orangered': !element.isApproved }">
+            {{ element.name }}
+          </span>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <mat-header-cell *matHeaderCellDef>
+        {{ 'CLIENTS.PAGE.LIST.TABLE.ADDRESS' | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.address }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>

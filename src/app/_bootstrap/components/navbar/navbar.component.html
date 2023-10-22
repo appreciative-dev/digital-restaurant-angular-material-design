@@ -1,0 +1,156 @@
+<mat-toolbar
+  [ngStyle]="{
+    'background-color': matDrawerContentBackgroundColor
+  }"
+>
+  <mat-toolbar-row>
+    <button
+      [ngStyle]="{
+        'margin-left': matToolbarRowButtonMargin
+      }"
+      mat-icon-button
+      (click)="drawer.toggle()"
+      onclick="this.blur()"
+    >
+      <mat-icon class="menu-icon" *ngIf="isUserUpdated">menu</mat-icon>
+      <mat-spinner [diameter]="20" *ngIf="!isUserUpdated"></mat-spinner>
+    </button>
+    <span class="toolbar-title">{{ toolBarTitle() | translate }}</span>
+    <span class="toolbar-spacer"></span>
+    <button
+      mat-icon-button
+      *ngIf="hasEmployeeAuth && hasNewDelivery"
+      routerLink="delivery"
+      onclick="this.blur()"
+    >
+      <mat-icon class="toolbar-action-icon">shopping_basket</mat-icon>
+    </button>
+    <button
+      *ngIf="hasEmployeeAuth && hasNewClient && isAdmin"
+      mat-icon-button
+      routerLink="client-list"
+      onclick="this.blur()"
+    >
+      <mat-icon class="toolbar-action-icon">face</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon class="lang-icon">language</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        (click)="changeLanguage('es')"
+        onclick="this.blur()"
+      >
+        <span>español</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button
+        mat-menu-item
+        (click)="changeLanguage('pt')"
+        onclick="this.blur()"
+      >
+        <span>portugués</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button
+        mat-menu-item
+        (click)="changeLanguage('en')"
+        onclick="this.blur()"
+      >
+        <span>English</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-drawer-container>
+  <mat-drawer
+    #drawer
+    [mode]="mode"
+    [opened]="isDesktopSize"
+    class="mat-drawer-scrollbar"
+  >
+    <ng-container *ngIf="!hasEmployeeAuth && isUserUpdated">
+      <div class="menu-title">{{ menuTitle }}</div>
+      <div class="menu-subtitle">{{ menuSubtitle }}</div>
+    </ng-container>
+    <div class="menu-list-container">
+      <ng-container *ngIf="hasEmployeeAuth && isUserUpdated">
+        <ng-container *ngFor="let item of MENU_OPTIONS">
+          <ng-container *ngIf="item.roles.includes(employee.role)">
+            <div
+              class="menu-list-item"
+              routerLinkActive="active-link"
+              [routerLinkActiveOptions]="{ exact: false }"
+              [routerLink]="item.link"
+              (click)="toggleDrawer()"
+            >
+              <div class="menu-list-item-icon">
+                <mat-icon>
+                  {{ item.icon }}
+                </mat-icon>
+              </div>
+              <div class="menu-list-item-text">
+                <div class="menu-list-item-title">
+                  {{ item.title | translate }}
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="!hasEmployeeAuth && isUserUpdated">
+        <ng-container *ngFor="let item of CLIENT_MENU_OPTIONS">
+          <div
+            class="menu-list-item menu-list-item-image-padding"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: false }"
+            [routerLink]="item.link"
+            (click)="toggleDrawer()"
+          >
+            <div class="menu-list-item-image">
+              <img [src]="item.icon" width="80%" height="80%" />
+            </div>
+            <div class="menu-list-item-title" style="font-size: 1em">
+              {{ item.title }}
+            </div>
+          </div>
+        </ng-container>
+        <app-address></app-address>
+      </ng-container>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content
+    [ngStyle]="{
+      height: routerOutletContainerHeight,
+      'background-color': matDrawerContentBackgroundColor
+    }"
+  >
+    <ng-container *ngIf="isUserUpdated">
+      <div
+        class="router-outlet-container"
+        [ngStyle]="{ 'background-color': routerOutletContainerBackgroundColor }"
+      >
+        <div
+          class="router-outlet-container-desktop"
+          [ngClass]="{ 'router-outlet-container-mobile': !isDesktopSize }"
+        >
+          <router-outlet (activate)="onActivateRouter()"></router-outlet>
+        </div>
+      </div>
+      <ng-container
+        *ngIf="isDesktopSize && employee?.role === BUSINESS_ROLE.ADMIN"
+      >
+        <div class="desktop-dashboard">
+          <h3>Platos</h3>
+          <p>hoy dia</p>
+        </div>
+      </ng-container>
+    </ng-container>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<div style="display: none">
+  <img src="/assets/bell.png" />
+</div>

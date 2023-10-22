@@ -1,0 +1,94 @@
+<div *ngIf="isLoaded">
+  <div class="title-desc">Importe de descuento</div>
+
+  <div>
+    <div>
+      <!-- <mat-form-field style="min-width: 30%; max-width: 30%">
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="discountAmount"
+          [disabled]="!hasDiscount"
+        />
+      </mat-form-field> -->
+      <!-- <mat-form-field style="min-width: 70%; max-width: 70%">
+        <input matInput type="text" value=".000 pesos" disabled />
+      </mat-form-field> -->
+    </div>
+    <div style="text-align: center">
+      <!-- <mat-slide-toggle
+        [checked]="hasDiscount"
+        (change)="updateDiscount($event)"
+      ></mat-slide-toggle> -->
+    </div>
+  </div>
+
+  <div class="title-desc">Precio de entrega</div>
+
+  <div>
+    <div>
+      <!-- <mat-form-field style="min-width: 30%; max-width: 30%">
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="deliveryAmount"
+          [disabled]="!hasDelivery"
+        />
+      </mat-form-field> -->
+      <!-- <mat-form-field style="min-width: 70%; max-width: 70%">
+        <input matInput type="text" value=".000 pesos" disabled />
+      </mat-form-field> -->
+    </div>
+    <div style="text-align: center">
+      <!-- <mat-slide-toggle
+        [checked]="hasDelivery"
+        (change)="updateDelivery($event)"
+      ></mat-slide-toggle> -->
+    </div>
+  </div>
+
+  <div style="min-height: 40px">
+    <div
+      class="updated"
+      *ngIf="isUpdated"
+      [@fadeInLeftOnEnter]
+      [@fadeOutRightOnLeave]
+    >
+      Se ha actualizado!
+    </div>
+  </div>
+
+  <div style="margin-top: 0px">
+    <div>
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="close()"
+        style="
+          font-size: 1em;
+
+          color: #555;
+          font-weight: 600;
+          border: 1px solid #555;
+        "
+      >
+        <span>Cerrar</span>
+      </button>
+    </div>
+    <div>
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="confirm()"
+        style="
+          font-size: 1em;
+
+          color: white;
+          background-color: rgb(99, 153, 253);
+        "
+      >
+        <span>Actualizar</span>
+      </button>
+    </div>
+  </div>
+</div>

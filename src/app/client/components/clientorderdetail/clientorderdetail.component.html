@@ -1,0 +1,65 @@
+<div>
+  <div
+    style="
+      font-size: 2em;
+      font-family: 'Caveat', cursive;
+      color: #555;
+      margin-top: 0px;
+      text-align: center;
+    "
+  >
+    Gracias por su orden, {{ clientName }}!
+  </div>
+  <div style="text-align: center">
+    <img src="../../../../assets/bell.png" alt="" width="30%" height="30%" />
+  </div>
+  <br />
+</div>
+
+<div *ngFor="let item of item?.chosenPlates; let i = index">
+  <mat-card *ngIf="hasOrder" [@pulseOnEnter]>
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title style="font-size: 1.5em; color: #444"
+        >{{ i + 1 }}. {{ item?.plato.name }}</mat-card-title
+      >
+      <mat-card-subtitle style="font-size: 1em"
+        >{{ item?.plato.price }} mil pesos</mat-card-subtitle
+      >
+    </mat-card-header>
+  </mat-card>
+  <br />
+</div>
+
+<div style="font-size: 1.5em; text-align: left; color: #444">
+  <div style="font-weight: 500; margin-bottom: -5px">TOTAL:</div>
+  <div style="font-weight: 600">{{ item?.totalPrice }} mil pesos</div>
+</div>
+
+<div style="text-align: left; margin-top: 20px">
+  <hr />
+  <span style="font-size: 1em"
+    >Dirección: <strong>{{ item?.address?.address }}</strong></span
+  >
+  <br />
+  <span style="font-size: 1em"
+    >Teléfono: <strong>{{ item?.address?.phone }}</strong></span
+  >
+  <br />
+  <span style="font-size: 1em"
+    >Tiempo de entrega: <strong>{{ deliveryTime }}</strong></span
+  >
+</div>
+
+<br />
+<button
+  mat-raised-button
+  *ngIf="false"
+  [routerLink]="['/orderdetail', item?.orderId, 'client']"
+  style="min-width: 100%; background-color: darkturquoise; color: white"
+>
+  <mat-icon>playlist_add_check</mat-icon>
+  <span style="font-size: 1.5em; padding-left: 10px"
+    >Mirar estatus de la entrega</span
+  >
+</button>

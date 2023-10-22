@@ -1,0 +1,131 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.my-toolbar {
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+.example-header-image {
+  background-image: url('../../../../assets/plate.png');
+  background-size: cover;
+}
+
+.item-title {
+  font-size: 1em;
+  text-align: start;
+  color: #444;
+  font-weight: 400;
+}
+
+.item-desc {
+  font-size: 1em;
+  text-align: start;
+  color: #444;
+  font-weight: 600;
+}
+
+.item-center-title {
+  text-align: center;
+  color: #444;
+  font-size: 1.5em;
+  font-size: 500;
+}
+
+.plate-title {
+  color: rgb(99, 153, 253);
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.plate-desc {
+  padding-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.order-confirmed-status {
+  color: rgb(99, 153, 253);
+  font-size: 1.5em;
+  text-align: center;
+  min-height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.order-deliver-status {
+  color: skyblue;
+  font-size: 1.5em;
+  text-align: center;
+  min-height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.order-paid-status {
+  color: sandybrown;
+  font-size: 1.5em;
+  text-align: center;
+  min-height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.order-reject-status {
+  color: indianred;
+  font-size: 1.5em;
+  text-align: center;
+  min-height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+mat-cell:first-child,
+mat-footer-cell:first-child {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+mat-cell:last-child,
+mat-footer-cell:last-child {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.price-card {
+  background-color: sandybrown;
+  color: white;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  padding: 5px;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: 700;
+  letter-spacing: 2px;
+}

@@ -1,0 +1,612 @@
+<div class="toolbar-padding" *ngIf="!hasOrderRedirect">
+  <button
+    mat-stroked-button
+    routerLink="/waiter/menu"
+    style="min-width: 100%; color: rgb(99, 153, 253)"
+  >
+    <mat-icon>arrow_back</mat-icon>
+    <span
+      style="font-size: 1.1em; padding-left: 10px; text-transform: uppercase"
+      >Volver al Menú</span
+    >
+  </button>
+</div>
+
+<div
+  *ngIf="!hasOrder"
+  style="
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+  "
+>
+  <div
+    style="
+      font-size: 1.5em;
+
+      color: #777;
+      text-align: center;
+      line-height: 1.2em;
+    "
+  >
+    Para continuar con entradas y bebidas, elije algunos platos de la página
+    anterior.
+  </div>
+</div>
+
+<div *ngIf="hasOrder" class="checkout-container">
+  <div
+    *ngIf="!hasOrderRedirect"
+    style="
+      font-family: 'Caveat';
+      margin-bottom: 20px;
+      text-transform: none;
+      color: #444;
+      font-size: 1.5em;
+      text-align: left;
+    "
+  >
+    Por favor, continúe eligiendo entrada, bebida y acompañamientos a cado plato
+  </div>
+
+  <div *ngFor="let item of plates; let i = index">
+    <mat-card *ngIf="!hasOrderRedirect">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title
+          style="
+            font-size: 1.5em;
+
+            color: #444;
+          "
+          >{{ i + 1 }}. {{ item?.name }}</mat-card-title
+        >
+        <hr />
+      </mat-card-header>
+
+      <div class="title">Cuál entrada?</div>
+
+      <mat-radio-group
+        class="example-radio-group"
+        (change)="chooseEntrada($event.value, i)"
+      >
+        <mat-radio-button
+          class="example-radio-button"
+          *ngFor="let plate of item.entradas.entradaArray"
+          [value]="plate"
+          [disabled]="plate?.isRemoved"
+          [style.text-decoration]="plate?.isRemoved ? 'line-through' : 'none'"
+        >
+          <span style="color: #555; font-size: 1em">{{ plate?.name }}</span>
+        </mat-radio-button>
+        <mat-radio-button
+          class="example-radio-button"
+          value="skip"
+          (change)="chooseEntrada($event.value, i)"
+        >
+          <span style="color: #555; font-size: 1em">Sin entrada</span>
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <div class="title">Cuál bebida?</div>
+
+      <mat-radio-group
+        class="example-radio-group"
+        (change)="chooseBebida($event.value, i)"
+      >
+        <mat-radio-button
+          class="example-radio-button"
+          *ngFor="let plate of item.entradas.bebidaArray"
+          [value]="plate"
+          [disabled]="plate?.isRemoved"
+          [style.text-decoration]="plate?.isRemoved ? 'line-through' : 'none'"
+        >
+          <span style=",  color: #555">{{ plate?.name }}</span>
+        </mat-radio-button>
+        <mat-radio-button
+          class="example-radio-button"
+          value="skip"
+          (change)="chooseBebida($event.value, i)"
+        >
+          <span style="color: #555; font-size: 1em">Sin bebida</span>
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <div class="title" style="margin-bottom: 5px">Acompañamientos</div>
+
+      <ng-container *ngFor="let plate of item.entradas.toppingsList">
+        <mat-checkbox
+          [checked]="plate?.isRemoved !== true"
+          (change)="chooseToppings(plate, i)"
+          [disabled]="plate?.isRemoved"
+        >
+          <span
+            style=",  color: #555"
+            [style.text-decoration]="plate?.isRemoved ? 'line-through' : 'none'"
+            >{{ plate?.name }}</span
+          >
+        </mat-checkbox>
+        <br />
+      </ng-container>
+    </mat-card>
+
+    <br />
+  </div>
+
+  <mat-button-toggle-group
+    *ngIf="hasClientAccess && !hasOrderRedirect"
+    style="min-width: 100%"
+    [value]="orderType"
+  >
+    <mat-button-toggle
+      (click)="chooseOrderType('table')"
+      style="min-width: 50%"
+      value="table"
+      >Mesa</mat-button-toggle
+    >
+    <mat-button-toggle
+      (click)="chooseOrderType('delivery')"
+      style="min-width: 50%"
+      value="delivery"
+      >Domicilio</mat-button-toggle
+    >
+  </mat-button-toggle-group>
+
+  <div
+    *ngIf="isDeliveryGrid && hasClientAccess && !hasOrderRedirect"
+    [@expandOnEnter]
+    [@collapseOnLeave]
+  >
+    <mat-form-field
+      class="example-full-width"
+      appearance="outline"
+      style="margin-top: 10px"
+    >
+      <mat-label>Clientes registrados</mat-label>
+      <input
+        type="text"
+        matInput
+        [formControl]="clientFormControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+        (optionSelected)="addClientData($event.option.value)"
+      >
+        <mat-option
+          *ngFor="let option of filteredClients | async"
+          [value]="option"
+        >
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div
+    *ngIf="isDeliveryGrid && !hasOrderRedirect"
+    [@expandOnEnter]
+    [@collapseOnLeave]
+  >
+    <form [formGroup]="form" (ngSubmit)="confirmDelivery(form)">
+      <mat-card>
+        <div class="item-center-title">Datos de la entrega</div>
+
+        <mat-form-field class="example-full-width" style=",  color: #444">
+          <input
+            matInput
+            type="text"
+            placeholder="Nombre"
+            autocomplete="off"
+            formControlName="name"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" style=",  color: #444">
+          <input
+            matInput
+            type="text"
+            placeholder="Dirección"
+            autocomplete="off"
+            formControlName="address"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" style=",  color: #444">
+          <input
+            matInput
+            type="number"
+            placeholder="Celular"
+            autocomplete="off"
+            formControlName="phone"
+          />
+        </mat-form-field>
+
+        <div
+          style="
+            margin-top: 10px;
+            margin-bottom: 5px;
+
+            color: #444;
+            font-weight: 500;
+          "
+        >
+          Forma de pago?
+        </div>
+        <mat-radio-group
+          class="example-radio-group"
+          formControlName="payment"
+          (change)="chooseCash($event.value)"
+        >
+          <mat-radio-button value="CASH">
+            <span style=",  color: #666">Efectivo</span>
+          </mat-radio-button>
+          <mat-radio-button value="CARD">
+            <span style=",  color: #666">Tarjeta de debito / credito</span>
+          </mat-radio-button>
+          <mat-radio-button value="QR">
+            <span style=",  color: #666">QR</span>
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <div *ngIf="isCash" [@expandOnEnter] [@collapseOnLeave]>
+          <hr />
+          <div
+            style="
+              margin-top: 10px;
+              margin-bottom: 5px;
+
+              color: #444;
+              font-weight: 500;
+            "
+          >
+            Con cuál nominación de billete le gustaría pagar?
+          </div>
+          <mat-radio-group class="example-radio-group" formControlName="change">
+            <mat-radio-button value="Cantidad exacto">
+              <span style=",  color: #666">Cantidad exacto</span>
+            </mat-radio-button>
+            <mat-radio-button value="10 mil pesos">
+              <span style=",  color: #666">10 mil pesos</span>
+            </mat-radio-button>
+            <mat-radio-button value="20 mil pesos">
+              <span style=",  color: #666">20 mil pesos</span>
+            </mat-radio-button>
+            <mat-radio-button value="50 mil pesos">
+              <span style=",  color: #666">50 mil pesos</span>
+            </mat-radio-button>
+            <mat-radio-button value="100 mil pesos">
+              <span style=",  color: #666">100 mil pesos</span>
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div
+          style="
+            margin-top: 10px;
+            margin-bottom: 5px;
+
+            color: #444;
+            font-weight: 500;
+          "
+        >
+          A que hora hacer domicilio?
+        </div>
+        <mat-radio-group class="example-radio-group">
+          <mat-radio-button
+            (change)="updateTime('Ahora')"
+            [checked]="isNowDelivery"
+          >
+            <span style=",  color: #666">Ahora</span>
+          </mat-radio-button>
+          <mat-radio-button
+            [value]="deliveryTime"
+            (change)="updateTime('time')"
+          >
+            <span style=",  color: #666" *ngIf="isNowDelivery"
+              >Elegir la hora</span
+            >
+            <span style=",  color: #666" *ngIf="!isNowDelivery"
+              >Tiempo de domicilio: {{ deliveryTime }}</span
+            >
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            type="text"
+            placeholder="Comentarios (opcional)"
+            autocomplete="off"
+            formControlName="comments"
+          />
+        </mat-form-field>
+      </mat-card>
+
+      <div *ngIf="!hasOrderRedirect">
+        <div style="margin-top: 30px"></div>
+
+        <div
+          class="item-center-title"
+          style="text-align: left; margin-top: 5px; color: lightcoral"
+          *ngIf="hasDelivery"
+        >
+          Domicilio:
+        </div>
+        <div
+          class="item-center-title"
+          style="text-align: left; font-weight: 700; color: lightcoral"
+          *ngIf="hasDelivery"
+        >
+          {{ deliveryAmount * platesAmount }} mil pesos
+        </div>
+
+        <div
+          class="item-center-title"
+          style="text-align: left; margin-top: 5px; color: mediumseagreen"
+          *ngIf="hasDiscount"
+        >
+          Descuento:
+        </div>
+        <div
+          class="item-center-title"
+          style="text-align: left; color: mediumseagreen"
+          *ngIf="hasDiscount"
+        >
+          - {{ discountAmount * platesAmount }} mil pesos
+        </div>
+
+        <div
+          class="item-center-title"
+          style="text-align: left; margin-top: 5px"
+        >
+          Total:
+        </div>
+        <div
+          class="item-center-title"
+          style="text-align: left; font-weight: 700"
+        >
+          {{ totalPrice }} mil pesos
+        </div>
+
+        <div
+          *ngIf="hasFormError"
+          class="validation-error-message"
+          [@fadeInUpOnEnter]
+        >
+          Verifíque nuevamente su dirección.
+        </div>
+        <div
+          *ngIf="hasPaymentTypeError"
+          class="validation-error-message"
+          [@fadeInUpOnEnter]
+        >
+          Falta agregar forma de pago.
+        </div>
+        <div
+          *ngIf="hasEntradaError"
+          class="validation-error-message"
+          [@fadeInUpOnEnter]
+        >
+          Falta agregar las entradas.
+        </div>
+        <div
+          *ngIf="hasBebidaError"
+          class="validation-error-message"
+          [@fadeInUpOnEnter]
+        >
+          Falta agregar las bebidas.
+        </div>
+
+        <div style="text-align: center; min-width: 100%; margin-top: 20px">
+          <button
+            mat-raised-button
+            type="submit"
+            class="order-button"
+            *ngIf="!isUploading"
+          >
+            Solicitar Pedido
+          </button>
+          <button
+            mat-stroked-button
+            *ngIf="isUploading"
+            style="min-width: 100%"
+          >
+            <span style="color: rgb(99, 153, 253)">Guardando ..</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div
+    class="table-grid"
+    *ngIf="isTableGrid && !hasOrderRedirect"
+    [@expandOnEnter]
+    [@collapseOnLeave]
+  >
+    <mat-card>
+      <app-tables (updateTable)="attachTableToOrder($event)"></app-tables>
+    </mat-card>
+
+    <div style="margin-top: 30px"></div>
+
+    <table style="width: 100%; margin-top: 1px">
+      <colgroup>
+        <col span="1" style="width: 70%" />
+        <col span="1" style="width: 30%" />
+      </colgroup>
+      <tbody>
+        <tr *ngFor="let item of plates">
+          <td style="position: relative">
+            <div class="total-item">
+              {{ item.name }}
+            </div>
+          </td>
+          <td style="position: relative">
+            <div class="total-item" style="text-align: center">
+              {{ item.price }} mil
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let item of barList">
+          <td style="position: relative">
+            <div class="total-item">
+              {{ item.name }}
+            </div>
+          </td>
+          <td style="position: relative">
+            <div class="total-item" style="text-align: center">
+              {{ item.price }} mil
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr />
+
+    <div
+      class="item-center-title"
+      style="text-align: left; margin-top: 5px; color: lightcoral"
+      *ngIf="hasDelivery"
+    >
+      Domicilio:
+    </div>
+    <div
+      class="item-center-title"
+      style="text-align: left; font-weight: 700; color: lightcoral"
+      *ngIf="hasDelivery"
+    >
+      {{ deliveryAmount * platesAmount }} mil pesos
+    </div>
+
+    <div
+      class="item-center-title"
+      style="text-align: left; margin-top: 5px; color: mediumseagreen"
+      *ngIf="hasDiscount"
+    >
+      Descuento:
+    </div>
+    <div
+      class="item-center-title"
+      style="text-align: left; color: mediumseagreen"
+      *ngIf="hasDiscount"
+    >
+      -{{ discountAmount * platesAmount }} mil pesos
+    </div>
+
+    <div class="item-center-title" style="text-align: left; margin-top: 5px">
+      Total:
+    </div>
+    <div class="item-center-title" style="text-align: left; font-weight: 700">
+      {{ totalPrice }} mil pesos
+    </div>
+
+    <mat-radio-group
+      class="example-radio-group-2"
+      style="margin-top: 20px"
+      [formControl]="tablePayment"
+    >
+      <mat-radio-button value="CASH">
+        <span style=",  color: #666">Efectivo</span>
+      </mat-radio-button>
+      <mat-radio-button value="CARD">
+        <span style=",  color: #666">Tarjeta</span>
+      </mat-radio-button>
+      <mat-slide-toggle
+        [checked]="hasTableWithClient"
+        (change)="showClientForTable()"
+      >
+        <span style=",  color: #666">Nombre</span>
+      </mat-slide-toggle>
+    </mat-radio-group>
+
+    <div style="margin-top: 10px" *ngIf="hasTableWithClient" [@fadeInUpOnEnter]>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <input
+          placeholder="Nombre"
+          matInput
+          type="text"
+          [formControl]="extraClientName"
+        />
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <input
+          placeholder="Celular"
+          matInput
+          type="number"
+          [formControl]="extraClientPhone"
+        />
+      </mat-form-field>
+    </div>
+
+    <div
+      *ngIf="hasEntradaError"
+      class="validation-error-message"
+      [@fadeInUpOnEnter]
+    >
+      Falta agregar las entradas.
+    </div>
+    <div
+      *ngIf="hasBebidaError"
+      class="validation-error-message"
+      [@fadeInUpOnEnter]
+    >
+      Falta agregar las bebidas.
+    </div>
+    <div
+      *ngIf="hasNoTableError"
+      class="validation-error-message"
+      [@fadeInUpOnEnter]
+    >
+      Falta agregar la mesa.
+    </div>
+    <div
+      *ngIf="hasPaymentTypeError"
+      class="validation-error-message"
+      [@fadeInUpOnEnter]
+    >
+      Falta agregar forma de pago.
+    </div>
+
+    <div style="text-align: center; min-width: 100%; margin-top: 20px">
+      <button
+        mat-raised-button
+        type="button"
+        class="order-button"
+        *ngIf="!isUploading"
+        (click)="confirmTableOrder()"
+      >
+        Agregar orden
+      </button>
+      <button mat-stroked-button *ngIf="isUploading" style="min-width: 100%">
+        <span style="color: rgb(99, 153, 253)">Guardando ..</span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="hasLoader"
+    style="min-width: 100%; text-align: center; margin-left: -5%"
+  >
+    <div id="cooking">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div id="area">
+        <div id="sides">
+          <div id="pan"></div>
+          <div id="handle"></div>
+        </div>
+        <div id="pancake">
+          <div id="pastry"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

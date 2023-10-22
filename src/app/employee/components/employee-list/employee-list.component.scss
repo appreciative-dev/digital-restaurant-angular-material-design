@@ -1,0 +1,55 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.my-toolbar {
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+.table {
+  background-color: transparent;
+}
+
+.item-date {
+  color: #444;
+  font-weight: 500;
+  font-size: 1.2em;
+  margin-top: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.user-name {
+  color: #555;
+  font-weight: 400;
+  font-size: 1.5em;
+  margin-top: 5px;
+}
+
+.user-role {
+  color: #777;
+  font-weight: 900;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-top: -5px;
+}

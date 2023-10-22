@@ -1,0 +1,212 @@
+<mat-tab-group (selectedIndexChange)="preloadTabData($event)">
+  <mat-tab label="Cocinado">
+    <mat-table [dataSource]="datasource">
+      <ng-container matColumnDef="client">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Cliente
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <button
+            *ngIf="element.address"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: rgb(99, 153, 253); padding-right: 5px"
+              >shopping_basket</mat-icon
+            >
+            <span class="table-item">{{ element.address?.name }}</span>
+          </button>
+          <button
+            *ngIf="element.isTable && element.table == 0"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: sandybrown; padding-right: 5px"
+              >emoji_people</mat-icon
+            >
+            <span class="table-item">Recojer</span>
+          </button>
+          <button
+            *ngIf="element.isTable && element.table !== 0"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: sandybrown; padding-right: 5px"
+              >deck</mat-icon
+            >
+            <span class="table-item">{{ element.table }}</span>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="waiter">
+        <mat-header-cell *matHeaderCellDef fxFlex="30%">
+          Mesero
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="30%">
+          {{ element.waiter?.name }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef fxFlex="20%">
+          Precio
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="20%">
+          {{ element.totalPrice }} mil</mat-cell
+        >
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="Entregado">
+    <mat-table [dataSource]="datasourceDelivered">
+      <ng-container matColumnDef="client">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Cliente
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <button
+            *ngIf="element.address"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: rgb(99, 153, 253); padding-right: 5px"
+              >shopping_basket</mat-icon
+            >
+            <span class="table-item">{{ element.address?.name }}</span>
+          </button>
+          <button
+            *ngIf="element.isTable && element.table == 0"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: sandybrown; padding-right: 5px"
+              >emoji_people</mat-icon
+            >
+            <span class="table-item">Recojer</span>
+          </button>
+          <button
+            *ngIf="element.isTable && element.table !== 0"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: sandybrown; padding-right: 5px"
+              >deck</mat-icon
+            >
+            <span class="table-item">{{ element.table }}</span>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="waiter">
+        <mat-header-cell *matHeaderCellDef fxFlex="30%">
+          Mesero
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="30%">
+          {{ element.waiter?.name }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef fxFlex="20%">
+          Precio
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="20%">
+          {{ element.totalPrice }} mil
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="Cancelado">
+    <mat-table [dataSource]="datasourcePaid">
+      <ng-container matColumnDef="client">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Cliente
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <button
+            *ngIf="element.address"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: rgb(99, 153, 253); padding-right: 5px"
+              >shopping_basket</mat-icon
+            >
+            <span class="table-item">{{ element.address?.name }}</span>
+          </button>
+          <button
+            *ngIf="element.isTable && element.table == 0"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: sandybrown; padding-right: 5px"
+              >emoji_people</mat-icon
+            >
+            <span class="table-item">Recojer</span>
+          </button>
+          <button
+            *ngIf="element.isTable && element.table !== 0"
+            mat-button
+            (click)="redirect('orderdetail', element.id, 'Detalle de la orden')"
+          >
+            <mat-icon style="color: sandybrown; padding-right: 5px"
+              >deck</mat-icon
+            >
+            <span class="table-item">{{ element.table }}</span>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="waiter">
+        <mat-header-cell *matHeaderCellDef fxFlex="30%">
+          Mesero
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="30%">
+          {{ element.waiter?.name }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef fxFlex="20%">
+          Precio
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="20%">
+          {{ element.totalPrice }} mil</mat-cell
+        >
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <mat-progress-bar
+      style="margin-bottom: 5px"
+      mode="indeterminate"
+      *ngIf="isLoadingCocinados"
+    ></mat-progress-bar>
+    <div fxLayout="row" fxLayoutAlign="space-between" class="pagination-margin">
+      <button
+        mat-stroked-button
+        (click)="previousCocinado()"
+        [disabled]="!firstItem"
+      >
+        <span>Atras</span>
+      </button>
+      <button mat-stroked-button (click)="updateCocinado()">
+        <span *ngIf="!isLoadingCocinados">De Nuevo</span>
+        <span class="update-pagination" *ngIf="isLoadingCocinados"
+          >Cargando ..</span
+        >
+      </button>
+      <button mat-stroked-button (click)="nextCocinado()">
+        <span>Adelante</span>
+      </button>
+    </div>
+  </mat-tab>
+</mat-tab-group>

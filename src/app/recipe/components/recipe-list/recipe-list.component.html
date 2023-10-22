@@ -1,0 +1,46 @@
+<app-table-search
+  ngDefaultControl
+  [formControl]="searchControl"
+  [url]="'recipe'"
+  [placeholder]="'RECIPES.PAGE.LIST.TABLE.SEARCH'"
+></app-table-search>
+
+<ng-container *ngIf="dataSourceObs | async as data; else loadingTemplate">
+  <mat-table [dataSource]="data" matSort>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'RECIPES.PAGE.LIST.TABLE.NAME' | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div class="table-link" [routerLink]="['/recipe', element.id]">
+          {{ element.name }}
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'RECIPES.PAGE.LIST.TABLE.TYPE' | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ PLATE_TYPE[element.type] | translate }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'RECIPES.PAGE.LIST.TABLE.PRICE' | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span *ngIf="element.price"> {{ element.price || '-' }} mil</span>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>

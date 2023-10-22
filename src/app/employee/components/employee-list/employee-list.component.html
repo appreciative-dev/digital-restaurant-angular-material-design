@@ -1,0 +1,131 @@
+<mat-tab-group>
+  <mat-tab label="Agenda">
+    <div *ngFor="let item of cambiosList; let i = index">
+      <mat-card>
+        <div *ngIf="i !== 0" class="item-date">
+          {{ item?.timestamp.toDate() | date : 'MMMM d, y' }}
+        </div>
+        <div *ngIf="i == 0" class="item-date" style="color: rgb(99, 153, 253)">
+          hoy día
+        </div>
+        <div *ngFor="let item of item.cargo">
+          <div
+            *ngIf="item?.id"
+            fxLayout="row"
+            fxLayoutAlign="space-between"
+            fxLayoutGap="5px"
+          >
+            <div fxFlex="20%" style="padding: 5px 0">
+              <img
+                [src]="item?.photoURL"
+                width="50px"
+                height="50px"
+                style="border-radius: 50%"
+              />
+            </div>
+            <div fxFlex="80%">
+              <div class="user-name">{{ item?.name }}</div>
+              <div class="user-role" *ngIf="item.role !== ROLES.ADMIN">
+                {{ item?.role }}
+              </div>
+              <div class="user-role" *ngIf="item.role == ROLES.ADMIN">
+                Administrador
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+      <br />
+    </div>
+
+    <mat-progress-bar
+      style="margin-bottom: 5px"
+      mode="indeterminate"
+      *ngIf="isLoadingCambios"
+    ></mat-progress-bar>
+    <div fxLayout="row" fxLayoutAlign="space-between" class="pagination-margin">
+      <button
+        mat-stroked-button
+        (click)="previousPage()"
+        [disabled]="!firstItem"
+      >
+        <span>Atras</span>
+      </button>
+      <button mat-stroked-button (click)="updatePage()">
+        <span *ngIf="!isLoadingCambios">De Nuevo</span>
+        <span class="update-pagination" *ngIf="isLoadingCambios"
+          >Cargando ..</span
+        >
+      </button>
+      <button mat-stroked-button (click)="nextPage()">
+        <span>Adelante</span>
+      </button>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Empleados">
+    <mat-table [dataSource]="employeeSource" class="table">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef fxFlex="70%">
+          Nombre
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="70%">
+          <button
+            mat-button
+            (click)="
+              redirect('employeedetail', 'Perfil del Empleado', element.id)
+            "
+            style="color: rgb(99, 153, 253)"
+          >
+            {{ element.name }}
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <mat-header-cell *matHeaderCellDef fxFlex="30%">
+          Cargo
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="30%">
+          {{ element.role }}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="employeeSourceColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: employeeSourceColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="Candidatos">
+    <mat-table [dataSource]="candidateSource" class="table">
+      <ng-container matColumnDef="email" fxFlex="60%">
+        <mat-header-cell *matHeaderCellDef fxFlex="60%">
+          Nombre
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="add">
+        <mat-header-cell *matHeaderCellDef fxFlex="20%">Añadir</mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="20%">
+          <button mat-icon-button (click)="addCandidate(element)">
+            <mat-icon>done</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef fxFlex="20%">Quitar</mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="20%">
+          <button mat-icon-button (click)="deleteCandidate(element)">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="candidateSourceColumns"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: candidateSourceColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+</mat-tab-group>

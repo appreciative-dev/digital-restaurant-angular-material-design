@@ -1,0 +1,19 @@
+<div class="header-toolbar">
+  <app-button
+    [title]="title"
+    [icon]="'arrow_back'"
+    [url]="'/recipe'"
+  ></app-button>
+  <app-button
+    [title]="'BUTTON.EDIT'"
+    [icon]="'edit'"
+    [type]="'edit'"
+    [url]="'edit'"
+  ></app-button>
+  <app-button
+    [title]="'BUTTON.DELETE'"
+    [icon]="'clear'"
+    [type]="'delete'"
+    (click)="delete.next(true)"
+  ></app-button>
+</div>

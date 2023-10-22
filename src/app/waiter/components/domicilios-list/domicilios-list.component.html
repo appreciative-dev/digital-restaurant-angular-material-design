@@ -1,0 +1,156 @@
+<div class="toolbar-padding">
+  <button
+    mat-stroked-button
+    (click)="redirect('domicilios', 'Menú del Día')"
+    style="min-width: 100%; color: rgb(99, 153, 253)"
+  >
+    <mat-icon>shopping_basket</mat-icon>
+    <span style="padding-left: 10px">Agregar nuevo domicilio</span>
+  </button>
+</div>
+
+<mat-tab-group
+  [@.disabled]="true"
+  (selectedIndexChange)="preloadTabData($event)"
+>
+  <mat-tab label="Nuevos">
+    <mat-table [dataSource]="datasource">
+      <ng-container matColumnDef="client">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Cliente
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <button
+            mat-button
+            (click)="showDeliveryDetail(element)"
+            style="color: rgb(99, 153, 253)"
+          >
+            {{ element.address?.name }}
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="plates">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Platos
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <div style="display: inline-block">
+            <li *ngFor="let item of element.chosenPlates; let i = index">
+              {{ item.plato.name }}
+            </li>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="Confirmados">
+    <mat-table
+      [dataSource]="datasourceAcceptedOrders"
+      *ngIf="!isDeletingAcceptedDelivery"
+    >
+      <ng-container matColumnDef="waiter">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Mesero
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <button
+            mat-button
+            (click)="showConfirmedDelivery(element.orderId, element)"
+            style="color: rgb(99, 153, 253)"
+          >
+            {{ element.address?.name }}
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="plates">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Platos
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <div style="display: inline-block">
+            <li *ngFor="let item of element.chosenPlates; let i = index">
+              {{ item.plato.name }}
+            </li>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="displayedColumnsAcceptedOrders"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: displayedColumnsAcceptedOrders"
+      ></mat-row>
+    </mat-table>
+
+    <mat-progress-bar
+      style="margin-bottom: 5px"
+      mode="indeterminate"
+      *ngIf="isLoadingAcceptedDelivery"
+    ></mat-progress-bar>
+    <div fxLayout="row" fxLayoutAlign="space-between" class="pagination-margin">
+      <button
+        mat-stroked-button
+        (click)="previousPage()"
+        [disabled]="!firstItem"
+      >
+        <span>Atras</span>
+      </button>
+      <button mat-stroked-button (click)="updatePage()">
+        <span *ngIf="!isLoadingAcceptedDelivery">De Nuevo</span>
+        <span class="update-pagination" *ngIf="isLoadingAcceptedDelivery"
+          >Cargando ..</span
+        >
+      </button>
+      <button mat-stroked-button (click)="nextPage()">
+        <span>Adelante</span>
+      </button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Anulados">
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="isLoadingRejectedDelivery"
+    ></mat-progress-bar>
+    <mat-table
+      [dataSource]="datasourceRejectedOrders"
+      *ngIf="!isDeletingRejectedDelivery"
+    >
+      <ng-container matColumnDef="client">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Cliente
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <button
+            mat-button
+            (click)="showRejectedDelivery(element)"
+            style="color: rgb(99, 153, 253)"
+          >
+            {{ element.address?.name }}
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="plates">
+        <mat-header-cell *matHeaderCellDef fxFlex="50%">
+          Platos
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="50%">
+          <div style="display: inline-block">
+            <li *ngFor="let item of element.chosenPlates; let i = index">
+              {{ item.plato.name }}
+            </li>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+</mat-tab-group>

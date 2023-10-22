@@ -1,0 +1,33 @@
+<div class="header-toolbar">
+  <app-button
+    [title]="'CLIENTS.NAVBAR'"
+    [icon]="'arrow_back'"
+    [url]="'/client'"
+  ></app-button>
+</div>
+
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <input matInput type="text" placeholder="Nombre" formControlName="name" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <input
+      matInput
+      type="text"
+      placeholder="Dirección"
+      formControlName="address"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <input matInput type="text" placeholder="Celular" formControlName="phone" />
+  </mat-form-field>
+</form>
+
+<div class="footer-toolbar">
+  <app-button
+    [title]="'BUTTON.SAVE'"
+    [disabled]="!form.valid"
+    [type]="'save'"
+    (click)="save(form)"
+  ></app-button>
+</div>

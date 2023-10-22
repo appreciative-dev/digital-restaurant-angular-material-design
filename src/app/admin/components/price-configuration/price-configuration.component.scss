@@ -1,0 +1,44 @@
+.example-full-width {
+  width: 100%;
+}
+
+.updated {
+  color: mediumseagreen;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.validation-error-message {
+  color: #555;
+  border: 1px solid indianred;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.title-desc {
+  color: #444 !important;
+  font-weight: 500 !important;
+  font-size: 1.2em;
+  margin-top: 5px;
+  margin-bottom: -5px;
+  text-transform: uppercase;
+}
+
+.dialog-padding {
+  padding: 10px;
+}
+
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: turquoise;
+}
+
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: rgb(99, 153, 253);
+}

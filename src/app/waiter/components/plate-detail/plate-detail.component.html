@@ -1,0 +1,340 @@
+<div
+  mat-dialog-content
+  *ngIf="!isDeliverDetails && !isEntradaGrid"
+  cdkFocusInitial
+>
+  <div>
+    <div
+      style="
+        font-size: 1.5em;
+        color: #555;
+        text-align: center;
+        margin-bottom: 5px;
+      "
+    >
+      {{ plate?.name }}
+    </div>
+    <div *ngIf="plate?.imgURL">
+      <img
+        [src]="plate.imgURL"
+        width="100%"
+        height="100%"
+        style="border-radius: 8px"
+      />
+    </div>
+  </div>
+
+  <div class="title-desc">{{ plate?.plato?.history }}</div>
+  <div class="title-desc">{{ plateDetail }}</div>
+
+  <hr />
+  <div style="font-size: 1.1em; color: #555">{{ plate?.price }} MIL PESOS</div>
+
+  <button
+    mat-stroked-button
+    (click)="addPlate()"
+    style="min-width: 100%; margin-top: 20px; border: 1px mediumseagreen solid"
+    *ngIf="!plate.isRemoved"
+  >
+    <span
+      style="
+        font-size: 1.1em;
+        font-weight: 500;
+        color: mediumseagreen;
+        padding-left: 10px;
+        text-transform: uppercase;
+      "
+      >Agregar plato</span
+    >
+  </button>
+  <button
+    mat-stroked-button
+    (click)="close()"
+    style="min-width: 100%; margin-top: 20px; border: 1px #444 solid"
+    *ngIf="plate.isRemoved == true"
+  >
+    <span
+      style="
+        font-size: 1.1em;
+        font-weight: 500;
+        color: #444;
+        padding-left: 10px;
+        text-transform: uppercase;
+      "
+      >AGOTADO</span
+    >
+  </button>
+
+  <div fxLayout="row" fxLayoutAlign="space-between" style="margin-top: 25px">
+    <button mat-button (click)="close()">
+      <mat-icon
+        style="font-size: 0.9em; color: #666; margin-bottom: -10px !important"
+        >menu_book</mat-icon
+      >
+      <span
+        style="
+          font-size: 0.9em;
+          color: #666;
+          padding-left: 0px;
+          text-transform: uppercase;
+          font-weight: 500;
+        "
+      >
+        Menú
+      </span>
+    </button>
+    <button
+      mat-flat-button
+      (click)="removeFromMenu()"
+      *ngIf="hasDeleteAuth"
+      style="
+        background-color: #444;
+        color: white;
+        text-transform: uppercase;
+        font-size: 0.9em;
+      "
+    >
+      Agotado
+    </button>
+  </div>
+</div>
+
+<div mat-dialog-content *ngIf="isDeliverDetails">
+  <mat-card-content style="margin-bottom: 20px">
+    <div class="client-detail">
+      <mat-icon style="color: sandybrown; min-height: 100%; margin-top: 3px"
+        >face</mat-icon
+      >
+      <div
+        style="
+          min-height: 100%;
+          display: initial;
+          padding-left: 10px;
+          font-weight: 700;
+        "
+      >
+        {{ order?.address?.name }}
+      </div>
+    </div>
+    <div class="client-detail">
+      <mat-icon style="color: sandybrown; min-height: 100%; margin-top: 3px"
+        >call</mat-icon
+      >
+      <div style="min-height: 100%; display: initial; padding-left: 10px">
+        {{ order?.address?.phone }}
+      </div>
+    </div>
+    <div class="client-detail">
+      <mat-icon style="color: sandybrown; min-height: 100%; margin-top: 3px"
+        >home</mat-icon
+      >
+      <div style="min-height: 100%; display: initial; padding-left: 10px">
+        {{ order?.address?.address }}
+      </div>
+    </div>
+    <div class="client-detail">
+      <mat-icon style="color: sandybrown; min-height: 100%; margin-top: 3px"
+        >account_balance_wallet</mat-icon
+      >
+      <div
+        style="min-height: 100%; display: initial; padding-left: 10px"
+        *ngIf="order.payment == 'CASH'"
+      >
+        Efectivo
+      </div>
+      <div
+        style="min-height: 100%; display: initial; padding-left: 10px"
+        *ngIf="order.payment == 'CARD'"
+      >
+        Tarjeta
+      </div>
+      <div
+        style="min-height: 100%; display: initial; padding-left: 10px"
+        *ngIf="order.payment == 'QR'"
+      >
+        QR
+      </div>
+    </div>
+  </mat-card-content>
+
+  <hr />
+  <li
+    *ngFor="let item of order?.chosenPlates"
+    style="font-size: 1.2em; color: #555"
+  >
+    {{ item.plato.name }}
+  </li>
+
+  <div *ngIf="isRejectedOrder">
+    <div
+      class="validation-error-message"
+      style="margin-top: 15px; text-transform: uppercase"
+    >
+      Rechazado
+    </div>
+
+    <button
+      mat-button
+      (click)="close()"
+      style="min-width: 50%; margin-top: 20px; text-align: left"
+    >
+      <span
+        style="
+          font-size: 1em;
+          color: indianred;
+          padding-left: 0px;
+          text-transform: uppercase;
+          font-weight: 500;
+        "
+        >Cerrar</span
+      >
+    </button>
+  </div>
+
+  <div *ngIf="hasRedirectButton">
+    <button
+      mat-stroked-button
+      (click)="redirectToDeliveryDetail()"
+      style="min-width: 100%; margin-top: 20px; border: 1px #555 solid"
+    >
+      <span
+        style="
+          font-size: 1.5em;
+          color: #555;
+          padding-left: 10px;
+          text-transform: uppercase;
+          font-weight: 500;
+        "
+        >Mirar orden</span
+      >
+    </button>
+
+    <button
+      mat-button
+      (click)="close()"
+      style="min-width: 50%; margin-top: 20px; text-align: left"
+    >
+      <span
+        style="
+          font-size: 1em;
+          color: indianred;
+          padding-left: 0px;
+          text-transform: uppercase;
+          font-weight: 500;
+        "
+        >Cerrar</span
+      >
+    </button>
+  </div>
+
+  <div *ngIf="hasActionButtons">
+    <div
+      *ngIf="isDeleteOrder"
+      class="validation-error-message"
+      style="margin: 5px 0"
+    >
+      Quiere retirar el orden de este domicilio?
+
+      <div style="margin-top: 10px">
+        <button mat-flat-button (click)="cancelOrder()">
+          <span style="font-size: 1.5em; color: indianred; padding-left: 10px"
+            >Si</span
+          >
+        </button>
+        <button mat-stroked-button (click)="hideConfirmaion()">
+          <span style="font-size: 1.5em; color: seagreen">No</span>
+        </button>
+      </div>
+    </div>
+
+    <button
+      mat-stroked-button
+      (click)="confirm()"
+      style="
+        min-width: 100%;
+        margin-top: 20px;
+        border: 1px mediumseagreen solid;
+      "
+      *ngIf="!isDeleteOrder"
+    >
+      <span
+        style="
+          font-size: 1.5em;
+          color: mediumseagreen;
+          padding-left: 10px;
+          text-transform: uppercase;
+          font-weight: 500;
+        "
+        >Confirmar</span
+      >
+    </button>
+
+    <button
+      mat-button
+      (click)="showConfirmaion()"
+      style="min-width: 50%; margin-top: 20px; text-align: left"
+      *ngIf="!isDeleteOrder"
+    >
+      <span
+        style="
+          font-size: 1em;
+          color: indianred;
+          padding-left: 10px;
+          text-transform: uppercase;
+          font-weight: 500;
+        "
+        >Anular</span
+      >
+    </button>
+  </div>
+</div>
+
+<div
+  mat-dialog-content
+  *ngIf="isEntradaGrid && !isDeliverDetails"
+  cdkFocusInitial
+>
+  <div
+    style="
+      font-size: 1.5em;
+      color: #555;
+      text-align: center;
+      margin-bottom: 5px;
+    "
+  >
+    {{ entradaName }}
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between" style="margin-top: 25px">
+    <button mat-button (click)="close()">
+      <mat-icon
+        style="font-size: 0.9em; color: #666; margin-bottom: -10px !important"
+        >menu_book</mat-icon
+      >
+      <span
+        style="
+          font-size: 0.9em;
+          color: #666;
+          padding-left: 0px;
+          text-transform: uppercase;
+          font-weight: 500;
+        "
+      >
+        Menú
+      </span>
+    </button>
+    <button
+      mat-flat-button
+      (click)="removeFromMenu()"
+      *ngIf="hasDeleteAuth"
+      style="
+        background-color: #444;
+        color: white;
+        text-transform: uppercase;
+        font-size: 0.9em;
+      "
+    >
+      Agotado
+    </button>
+  </div>
+</div>

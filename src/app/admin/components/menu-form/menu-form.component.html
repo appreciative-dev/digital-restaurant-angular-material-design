@@ -1,0 +1,471 @@
+<div class="header-toolbar">
+  <button
+    class="toolbar-button add-button"
+    mat-stroked-button
+    routerLink="/admin/menu-board"
+  >
+    <mat-icon>arrow_back</mat-icon>
+    <span>Volver</span>
+  </button>
+</div>
+<div class="header-toolbar">
+  <button
+    class="toolbar-button"
+    mat-stroked-button
+    (click)="changeEntradas()"
+    *ngIf="!addDrink"
+  >
+    <mat-icon>refresh</mat-icon>
+    <span>Reajustar</span>
+  </button>
+  <button
+    class="toolbar-button"
+    mat-stroked-button
+    (click)="addBarDrink()"
+    *ngIf="!addDrink"
+  >
+    <mat-icon>local_drink</mat-icon>
+    <span>Adicionales</span>
+  </button>
+</div>
+
+<div class="header-toolbar">
+  <button
+    class="toolbar-button edit-button"
+    mat-stroked-button
+    (click)="changeEntradas()"
+    *ngIf="addDrink"
+  >
+    <mat-icon>restaurant</mat-icon>
+    <span>Menú del Día</span>
+  </button>
+</div>
+
+<div *ngIf="!hasEntrada && !hasBebida" [@fadeOutDownOnLeave]>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="chooseEntradas(form)"
+    *ngIf="isFormDataLoaded"
+  >
+    <mat-card>
+      <h5>Entradas</h5>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Sopa" formControlName="selectedEntrada1">
+          <mat-option *ngFor="let item of entradaList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Fruta" formControlName="selectedEntrada2">
+          <mat-option *ngFor="let item of entradaList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Crema" formControlName="selectedEntrada3">
+          <mat-option *ngFor="let item of entradaList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card>
+
+    <br />
+    <mat-card>
+      <h5>Acompañamientos</h5>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Ensalada" formControlName="selectedSalad">
+          <mat-option *ngFor="let item of saladList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Arroz" formControlName="selectedRice">
+          <mat-option *ngFor="let item of riceList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Guarnición" formControlName="selectedGarnish">
+          <mat-option *ngFor="let item of garnishList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Postre" formControlName="selectedPostre">
+          <mat-option *ngFor="let item of dessertList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card>
+
+    <br />
+    <mat-card>
+      <h5>Bebidas</h5>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Jugo" formControlName="selectedBebida1">
+          <mat-option *ngFor="let item of bebidaList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Limonada" formControlName="selectedBebida2">
+          <mat-option *ngFor="let item of bebidaList" [value]="item">
+            <span>{{ item.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card>
+
+    <br />
+    <div *ngIf="hasEntradasValidationError" class="validation-error-message">
+      Falta agregar algunos platos
+    </div>
+
+    <button
+      mat-stroked-button
+      type="submit"
+      style="
+        min-width: 100%;
+        color: rgb(99, 153, 253);
+        border: 1px solid rgb(99, 153, 253);
+      "
+    >
+      Agregar entradas y bebidas
+    </button>
+  </form>
+</div>
+
+<div *ngIf="hasEntrada && hasBebida && !addDrink" style="font-size: 1em">
+  <div *ngIf="showMainPlates" [@fadeInUpOnEnter]>
+    <mat-card>
+      <div class="title-desc">Platos Principales</div>
+
+      <div
+        *ngFor="let item of platoList; let i = index"
+        style="margin-top: 10px"
+      >
+        <div class="row">
+          <div class="col-9">
+            <div class="list-item">{{ item?.name }}</div>
+          </div>
+          <div class="col-3">
+            <div style="min-height: 100%; display: flex; align-items: center">
+              <div>
+                <mat-checkbox
+                  [checked]="item.isAdded"
+                  (change)="addPlate(item)"
+                ></mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </mat-card>
+
+    <div
+      style="
+        margin-top: 10px;
+        margin-left: 5px;
+        color: #555;
+        min-width: 100%;
+        text-align: end;
+        font-size: 1.5em;
+        font-weight: 500;
+      "
+    >
+      {{ plates.length }} PLATOS
+    </div>
+
+    <button
+      mat-stroked-button
+      type="button"
+      (click)="chooseMainPlates()"
+      style="
+        min-width: 100%;
+        color: rgb(99, 153, 253);
+        border: 1px solid rgb(99, 153, 253);
+        margin-top: 10px;
+      "
+    >
+      Agregar platos principales
+    </button>
+  </div>
+
+  <div *ngIf="showCambios" [@fadeInUpOnEnter]>
+    <form [formGroup]="cambiosForm" (ngSubmit)="updateCambios(cambiosForm)">
+      <mat-card>
+        <h5>Equipo</h5>
+
+        <mat-form-field class="example-full-width">
+          <mat-select
+            placeholder="Administrador"
+            formControlName="admin"
+            [compareWith]="compareCambioUsers"
+          >
+            <mat-option *ngFor="let item of adminList" [value]="item">
+              <span>{{ item.name }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-select
+            placeholder="Jefe"
+            formControlName="chef"
+            [compareWith]="compareCambioUsers"
+          >
+            <mat-option *ngFor="let item of chefList" [value]="item">
+              <span>{{ item.name }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-select
+            placeholder="Mesero 1"
+            formControlName="waiter1"
+            [compareWith]="compareCambioUsers"
+          >
+            <mat-option *ngFor="let item of waiterList" [value]="item">
+              <span>{{ item.name }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-select
+            placeholder="Mesero 2"
+            formControlName="waiter2"
+            [compareWith]="compareCambioUsers"
+          >
+            <mat-option *ngFor="let item of waiterList" [value]="item">
+              <span>{{ item.name }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-select
+            placeholder="Mesero 3"
+            formControlName="waiter3"
+            [compareWith]="compareCambioUsers"
+          >
+            <mat-option *ngFor="let item of waiterList" [value]="item">
+              <span>{{ item.name }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-select
+            placeholder="Domiciliario"
+            formControlName="delivery"
+            [compareWith]="compareCambioUsers"
+          >
+            <mat-option *ngFor="let item of deliveryList" [value]="item">
+              <span>{{ item.name }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="repeatCambios()"
+          class="update-button"
+        >
+          Repetir como ayer
+        </button>
+
+        <div *ngIf="hasNoCambiosError" class="validation-error-message">
+          No estaba ningun cambio
+        </div>
+      </mat-card>
+
+      <button
+        mat-stroked-button
+        type="submit"
+        class="next-button"
+        [disabled]="!cambiosForm.valid"
+      >
+        Establecer equipo
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="showAllMenu" [@fadeInUpOnEnter]>
+    <mat-card>
+      <div class="title-desc">Platos Principales</div>
+      <ul>
+        <li class="list-item" *ngFor="let item of plates">
+          {{ item.plato.name }}
+        </li>
+      </ul>
+
+      <div class="title-desc">Entradas</div>
+      <ul>
+        <li>
+          <div class="list-item">{{ entradaArray[0].name }}</div>
+        </li>
+        <li>
+          <div class="list-item">{{ entradaArray[1].name }}</div>
+        </li>
+        <li>
+          <div class="list-item">{{ entradaArray[2]?.name }}</div>
+        </li>
+      </ul>
+
+      <div class="title-desc">Acompañamientos</div>
+      <ul>
+        <li>
+          <div class="list-item">{{ toppingsList[0].name }}</div>
+        </li>
+        <li>
+          <div class="list-item">{{ toppingsList[1].name }}</div>
+        </li>
+        <li>
+          <div class="list-item">{{ toppingsList[2].name }}</div>
+        </li>
+      </ul>
+
+      <div class="title-desc">Bebidas</div>
+      <ul>
+        <li>
+          <div class="list-item">{{ bebidaArray[0].name }}</div>
+        </li>
+        <li>
+          <div class="list-item">{{ bebidaArray[1].name }}</div>
+        </li>
+      </ul>
+
+      <div class="title-desc">Postre</div>
+      <ul>
+        <li>
+          <div class="list-item">{{ toppingsList[3].name }}</div>
+        </li>
+      </ul>
+    </mat-card>
+
+    <br />
+
+    <mat-card>
+      <div class="title-desc">Equipo</div>
+      <ul>
+        <li class="list-item" *ngFor="let item of cambiosEntity.cargo">
+          {{ item?.name }}
+        </li>
+      </ul>
+    </mat-card>
+
+    <div style="margin-top: 20px; margin-bottom: 10px"></div>
+    <button
+      mat-raised-button
+      (click)="savePlates()"
+      style="min-width: 100%; background-color: rgb(99, 153, 253)"
+      *ngIf="!isLoading"
+    >
+      <span style="padding-left: 0px; color: white"
+        >Actualizar el menú y abrir el servicio</span
+      >
+    </button>
+    <button
+      mat-stroked-button
+      *ngIf="isLoading"
+      type="button"
+      style="min-width: 100%"
+    >
+      <span style="color: rgb(99, 153, 253)">Guardando ..</span>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="addDrink">
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Elegir adicional" [(value)]="selectedDrink">
+      <mat-option *ngFor="let item of barList" [value]="item">
+        <span>{{ item.name }}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div style="margin-top: 10px; margin-bottom: 10px"></div>
+  <button
+    mat-stroked-button
+    (click)="saveDrink()"
+    style="min-width: 100%; border: 1px solid rgb(99, 153, 253)"
+    *ngIf="!isBarItemUploading"
+    [disabled]="!selectedDrink"
+  >
+    <span style="padding-left: 0px; color: rgb(99, 153, 253)"
+      >Añadir Adicional</span
+    >
+  </button>
+  <button
+    mat-stroked-button
+    *ngIf="isBarItemUploading"
+    type="button"
+    style="min-width: 100%"
+  >
+    <span style="padding-left: 0px; color: rgb(99, 153, 253)"
+      >Guardando ..</span
+    >
+  </button>
+
+  <div *ngIf="!hasBarItems" class="menu-subtitle" style="margin-top: 20px">
+    No hay adicionales adjuntos
+  </div>
+
+  <mat-table
+    *ngIf="hasBarItems"
+    [dataSource]="barSource"
+    style="padding: 0 5px; background-color: transparent; margin-top: 10px"
+  >
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef style="justify-content: flex-start"
+        >Nombre</mat-header-cell
+      >
+      <mat-cell *matCellDef="let element" style="justify-content: flex-start">
+        <div style="color: #666; font-size: 1em">
+          {{ element.name }}
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span style="color: #666">{{ element.price }} mil</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="remove">
+      <mat-header-cell *matHeaderCellDef>Quitar</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="removeItem(element.id)">
+          <mat-icon class="add-button">clear</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="barSourceColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: barSourceColumns"></mat-row>
+  </mat-table>
+</div>

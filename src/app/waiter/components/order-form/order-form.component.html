@@ -1,0 +1,103 @@
+<div class="list-page-title">Detalle de la orden</div>
+
+<div class="my-toolbar">
+  <button
+    mat-stroked-button
+    color="primary"
+    routerLink="/allmenu"
+    style="min-width: 100%"
+  >
+    <mat-icon>arrow_back</mat-icon> Volver a la carta
+  </button>
+</div>
+
+<div *ngIf="!hasOrder">
+  <h2 style="font-size: 1.5em">Minimúm un plato</h2>
+</div>
+
+<div *ngIf="hasOrder">
+  <br />
+
+  <div *ngFor="let item of plates; let i = index">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title style="font-size: 1.2em"
+          >{{ i + 1 }}. {{ item?.name }}</mat-card-title
+        >
+        <mat-card-subtitle style="font-size: 1.2em"
+          >{{ item?.price }} pesos</mat-card-subtitle
+        >
+        <hr />
+      </mat-card-header>
+
+      <h5 style="font-size: 1.2em; font: bold">
+        <strong>Entradas:</strong>
+      </h5>
+      <mat-radio-group
+        class="example-radio-group"
+        (change)="chooseEntrada($event.value, i)"
+      >
+        <mat-radio-button
+          class="example-radio-button"
+          *ngFor="let plate of item?.entradaList"
+          [value]="plate"
+        >
+          {{ plate?.name }}
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <hr />
+      <h5 style="font-size: 1.2em; font: bold">
+        <strong>Acompañamientos:</strong>
+      </h5>
+
+      <mat-radio-group
+        class="example-radio-group"
+        (change)="chooseBebida($event.value, i)"
+      >
+        <mat-radio-button
+          class="example-radio-button"
+          *ngFor="let plate of item?.bebidaList"
+          [value]="plate"
+        >
+          {{ plate?.name }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </mat-card>
+
+    <br />
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="confirm(form)">
+    <mat-form-field class="example-full-width">
+      <mat-select placeholder="Mesa" formControlName="table">
+        <mat-option *ngFor="let item of tables" [value]="item">
+          <span>{{ item }}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input
+        matInput
+        type="text"
+        placeholder="Comentarios"
+        formControlName="comments"
+        autocomplete="off"
+      />
+    </mat-form-field>
+
+    <div style="text-align: right">
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="!form.valid"
+        style="font-size: 1em"
+      >
+        Añadir
+      </button>
+    </div>
+  </form>
+</div>

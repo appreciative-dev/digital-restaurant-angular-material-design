@@ -1,0 +1,48 @@
+::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent !important;
+}
+
+.list-item {
+  color: #444;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: rgb(99, 153, 253) !important;
+}
+
+::ng-deep
+  .mat-checkbox:not(.mat-checkbox-disabled)
+  .mat-checkbox-ripple
+  .mat-ripple-element {
+  background-color: slateblue !important;
+}
+
+mat-option span {
+  color: #444;
+}
+
+.menu-subtitle {
+  text-align: center;
+  font-size: 1em;
+  color: #666;
+  font-family: 'Verdana';
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.next-button {
+  min-width: 100%;
+  color: rgb(99, 153, 253);
+  border: 1px solid rgb(99, 153, 253);
+  margin-top: 10px;
+}
+
+.update-button {
+  min-width: 100%;
+  color: #555;
+  border: 1px solid #555;
+  margin-top: 10px;
+}

@@ -1,0 +1,54 @@
+<app-detail-toolbar
+  [title]="'RECIPES.NAVBAR'"
+  [url]="'recipe'"
+  [id]="itemId"
+  (delete)="delete()"
+></app-detail-toolbar>
+
+<ng-container *ngIf="item && !isDeleting">
+  <h6>Nombre</h6>
+  <p>{{ item.name }}</p>
+
+  <h6>Descripción</h6>
+  <p>{{ item.history || 'N/A' }}</p>
+
+  <h6>Tipo</h6>
+  <p>{{ PLATE_TYPE[item.type] | translate }}</p>
+
+  <ng-container *ngIf="item.proteinCategory">
+    <h6>Categoría de proteína</h6>
+    <p>{{ PROTEIN_CATEGORY[item.proteinCategory] | translate }}</p>
+  </ng-container>
+
+  <ng-container *ngIf="item.price">
+    <h6>Precio</h6>
+    <p>{{ item.price }} mil</p>
+  </ng-container>
+
+  <ng-container *ngIf="item.imgURL">
+    <h6>Imagen</h6>
+    <img
+      [src]="item.imgURL"
+      width="50%"
+      height="50%"
+      style="border-radius: 8px"
+    />
+  </ng-container>
+
+  <h6>Historial</h6>
+
+  <mat-table [dataSource]="datasource">
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef> Fecha y hora</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.timestamp.toDate() | date : 'MMMM d, h:mm a' }}</mat-cell
+      >
+    </ng-container>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+</ng-container>
+
+<div class="space-around padding-top-20">
+  <mat-spinner *ngIf="isDeleting"></mat-spinner>
+</div>

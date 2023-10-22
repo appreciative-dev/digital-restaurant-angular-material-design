@@ -1,0 +1,105 @@
+<div class="header-toolbar">
+  <app-button
+    [title]="'RECIPES.NAVBAR'"
+    [icon]="'arrow_back'"
+    [url]="'/recipe'"
+  ></app-button>
+</div>
+
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <input matInput type="text" placeholder="Nombre" formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <textarea
+      rows="1"
+      matInput
+      placeholder="Descripción de la receta"
+      formControlName="history"
+    ></textarea>
+  </mat-form-field>
+
+  <h5>Tipo de plato</h5>
+
+  <mat-radio-group class="app-radio-group" formControlName="type">
+    <mat-radio-button
+      *ngFor="let type of PLATE_TYPE | keyvalue"
+      [value]="type.key"
+      (change)="changeType($event.value)"
+    >
+      {{ type.value | translate }}
+    </mat-radio-button>
+  </mat-radio-group>
+
+  <ng-container *ngIf="hasCategory">
+    <h5>Categoría de proteína</h5>
+
+    <mat-radio-group class="app-radio-group" formControlName="proteinCategory">
+      <mat-radio-button
+        *ngFor="let item of PROTEIN_CATEGORY | keyvalue"
+        [value]="item.key"
+      >
+        {{ item.value | translate }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </ng-container>
+
+  <ng-container *ngIf="hasPrice">
+    <h5>Precio</h5>
+
+    <mat-form-field style="width: 50%" floatLabel="always">
+      <input
+        style="text-align: right"
+        matInput
+        type="number"
+        placeholder="0"
+        formControlName="price"
+      />
+      <span matTextPrefix>COP&nbsp;</span>
+      <span matTextSuffix>.000</span>
+    </mat-form-field>
+  </ng-container>
+  <div>{{ imgURL }}</div>
+  <div
+    style="color: seagreen; font-weight: 500; margin: 10px 0"
+    *ngIf="isUploadedImg"
+  >
+    Imagen se ha actualizado con exito! Guarda la receta.
+  </div>
+
+  <span class="file-wrapper" *ngIf="!isUploadingImg">
+    <input type="file" name="photo" id="photo" (change)="updateImg($event)" />
+    <span class="button">Cambiar imagen</span>
+  </span>
+
+  <div *ngIf="showUploadButton && !isUploadingImg">
+    <br />
+    <button
+      mat-stroked-button
+      type="button"
+      (click)="uploadFile()"
+      style="color: rgb(99, 153, 253)"
+    >
+      <mat-icon>cloud_upload</mat-icon>
+      <span style="padding-left: 10px">Subir imagen a servidor</span>
+    </button>
+  </div>
+
+  <span *ngIf="isUploadingImg" class="upload-spinner">
+    <mat-progress-spinner
+      mode="determinate"
+      [value]="uploadProgress"
+      [diameter]="25"
+    ></mat-progress-spinner>
+  </span>
+</form>
+
+<div class="footer-toolbar">
+  <app-button
+    [title]="'BUTTON.SAVE'"
+    [disabled]="!form.valid"
+    [type]="'save'"
+    (click)="save(form)"
+  ></app-button>
+</div>

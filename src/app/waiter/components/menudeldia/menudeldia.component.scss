@@ -1,0 +1,109 @@
+.notification-order {
+  border-radius: 3rem;
+  color: indianred;
+  padding: 0 10px;
+  font-weight: 500;
+  border-radius: 0;
+}
+
+.index-title {
+  font-size: 1.4em;
+  font-family: 'Caveat', cursive;
+  padding-top: 10px;
+  text-align: justify;
+  color: #444;
+  font-weight: 500;
+}
+
+.add-button {
+  color: #777;
+  font-weight: 500;
+}
+
+mat-cell:first-child,
+mat-footer-cell:first-child {
+  padding-left: 0px !important;
+}
+
+mat-header-cell:first-child {
+  padding-left: 20px !important;
+}
+
+mat-row.mat-row.ng-star-inserted {
+  border: 0;
+  min-height: 100%;
+}
+
+.menu-del-dia ::ng-deep .mat-tab-label {
+  color: #444;
+  font-weight: 500;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+.menu-del-dia ::ng-deep .mat-tab-label.mat-tab-label-active {
+  color: #444;
+  font-weight: 500;
+  font-size: 1.2em;
+  text-transform: uppercase;
+}
+
+.menu-del-dia ::ng-deep .mat-ink-bar {
+  background-color: sandybrown !important;
+  height: 4px !important;
+}
+
+.topping-title {
+  margin-top: 10px;
+  color: #555;
+  font-weight: 500;
+  font-size: 1.2em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.plate-title {
+  color: rgb(99, 153, 253);
+  font-weight: 400;
+  font-size: 1.3em !important;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.plate-title:hover {
+  transition: all 0.2s ease-in-out;
+  color: sandybrown;
+}
+
+.topping-item-name {
+  color: rgb(99, 153, 253);
+  font-weight: 400;
+  font-size: 1.3em !important;
+}
+
+.topping-item-history {
+  color: #666;
+  font-size: 0.9em;
+  padding-left: 0px;
+}
+
+.close-title {
+  text-align: center;
+  font-size: 1.2em;
+  color: #555;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 10px;
+  border: 1px solid #999;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.close-subtitle {
+  text-align: center;
+  font-size: 1em;
+  color: rgb(99, 153, 253);
+  font-weight: 500;
+  margin-top: 20px;
+  padding: 5px;
+}

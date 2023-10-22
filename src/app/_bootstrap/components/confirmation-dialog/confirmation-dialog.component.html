@@ -1,0 +1,61 @@
+<div class="title-desc" *ngIf="isDeleteMenu">
+  <div *ngIf="!deliveryAmount && !openAmount" class="title-desc">
+    Cerrar el servicio y actualizar los pagos?
+  </div>
+  <div *ngIf="deliveryAmount || openAmount" class="order-action">
+    Cancelalas antes de cerrar el servicio
+  </div>
+  <div *ngIf="openAmount" class="order-info">
+    {{ openAmount }} ordenes cocinados
+  </div>
+  <div *ngIf="deliveryAmount" class="order-info">
+    {{ deliveryAmount }} ordenes entregados
+  </div>
+</div>
+
+<h5>{{ data.title | translate }}</h5>
+
+<h4 class="title-padding">
+  <span *ngIf="isDeleteRecipe">Eliminar la receta?</span>
+  <span *ngIf="isDeleteOrders">Borrar todas las ordenes?</span>
+  <span *ngIf="isDeleteDelivery">Borrar domicilios confirmados?</span>
+  <span *ngIf="isDeleteDeliveryRejected">Borrar domicilios anulados?</span>
+  <span *ngIf="isDeleteEmployee">Eliminar el empleado?</span>
+  <span *ngIf="isDeleteProduct">Eliminar el producto?</span>
+  <span *ngIf="isDeleteStore">Eliminar la tienda?</span>
+  <span *ngIf="isDeleteClient">Eliminar el cliente?</span>
+</h4>
+
+<div class="space-between padding-top-20">
+  <button
+    class="close-button"
+    mat-stroked-button
+    type="button"
+    (click)="close()"
+  >
+    <span *ngIf="!deliveryAmount && !openAmount">No</span>
+    <span *ngIf="deliveryAmount || openAmount">Cerrar</span>
+  </button>
+  <div>
+    <button
+      cdkFocusInitial
+      class="confirm-button"
+      mat-flat-button
+      type="button"
+      *ngIf="!isDeleteMenu"
+      (click)="confirm()"
+    >
+      <span>Sí</span>
+    </button>
+    <button
+      cdkFocusInitial
+      class="confirm-menu-button"
+      mat-flat-button
+      type="button"
+      *ngIf="isDeleteMenu && !deliveryAmount && !openAmount"
+      (click)="confirmMenu()"
+    >
+      <span>Sí</span>
+    </button>
+  </div>
+</div>
