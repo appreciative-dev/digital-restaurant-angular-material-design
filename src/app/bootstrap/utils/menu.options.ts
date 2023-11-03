@@ -79,32 +79,32 @@ export const MENU_OPTIONS: Array<MenuOption> = [
 export const CLIENT_MENU_OPTIONS: Array<MenuOption> = [
   {
     title: 'Menú del Día',
-    icon: '/assets/menu.png',
+    icon: '/assets/images/menu.png',
     link: 'waiter/menu',
   },
   {
     title: 'Domicilios',
-    icon: '/assets/delivery.png',
+    icon: '/assets/images/delivery.png',
     link: 'waiter/menu',
   },
   {
     title: 'Regístrarse',
-    icon: '/assets/register.png',
+    icon: '/assets/images/register.png',
     link: 'auth/login',
   },
   {
     title: 'Cuenta',
-    icon: '/assets/account.png',
+    icon: '/assets/images/account.png',
     link: 'auth/profile',
   },
   {
     title: 'Web App',
-    icon: '/assets/phone.png',
+    icon: '/assets/images/phone.png',
     link: 'appinfo',
   },
   {
     title: 'Direción',
-    icon: '/assets/address.png',
+    icon: '/assets/images/address.png',
     link: '/',
   },
 ]

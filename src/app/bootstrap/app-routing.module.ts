@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { IndexComponent } from './components/index/index.component'
-import { AuthqGuard } from '../auth/services/guard.service'
+import { AuthGuard } from '../auth/services/guard.service'
 
 export const routes: Routes = [
   {
     path: '',
     component: NavbarComponent,
-    // canActivate: [AuthqGuard],
     children: [
       { path: '', component: IndexComponent },
       {
@@ -18,26 +17,32 @@ export const routes: Routes = [
       {
         path: 'employee',
         loadChildren: () => import('../domains/employee/employee.module').then((m) => m.EmployeeModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'admin',
         loadChildren: () => import('../domains/admin/admin.module').then((m) => m.AdminModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'waiter',
         loadChildren: () => import('../domains/waiter/waiter.module').then((m) => m.WaiterModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'client',
         loadChildren: () => import('../domains/client/client.module').then((m) => m.ClientModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'recipe',
         loadChildren: () => import('../domains/recipe/recipe.module').then((m) => m.RecipeModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'delivery',
         loadChildren: () => import('../domains/delivery/delivery.module').then((m) => m.DeliveryModule),
+        canActivate: [AuthGuard],
       },
     ],
   },
