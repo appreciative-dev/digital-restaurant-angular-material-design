@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { IndexComponent } from './components/index/index.component'
+import { AuthqGuard } from '../auth/services/guard.service'
 
 export const routes: Routes = [
   {
     path: '',
     component: NavbarComponent,
+    // canActivate: [AuthqGuard],
     children: [
       { path: '', component: IndexComponent },
       {

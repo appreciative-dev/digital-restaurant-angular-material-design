@@ -21,15 +21,15 @@ export class AuthGuard {
   }
 
   canActivate() {
-    if (this.authState) {
-      return true
-    } else {
-      if (this.IS_TEST_MODE) {
-        return true
-      } else {
-        // this.router.navigate(['/guard-error'])
-        return true
-      }
-    }
+    return true
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthqGuard {
+  canActivate() {
+    return true
   }
 }

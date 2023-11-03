@@ -1,35 +1,30 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
 
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
 
-  
-  .example-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-  }
-  
-  .example-header {
-    min-height: 64px;
-    padding: 8px 24px 0;
-  }
-  
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-  
-  .mat-table {
-    overflow: auto;
-    max-height: 500px;
-  }
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
 
-  .my-toolbar {
-    text-align: left;
-    padding-bottom: 20px
-  }
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
 
+.my-toolbar {
+  text-align: left;
+  padding-bottom: 20px;
+}
 
-  
-  .example-header-image {
-    background-image: url('../../../../assets/plate.png');
-    background-size: cover;
-  }
+.example-header-image {
+  background-image: url('../../../../../assets/images/plate.png');
+  background-size: cover;
+}

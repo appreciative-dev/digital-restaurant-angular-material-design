@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
-import { MatDialog } from '@angular/material/dialog'
 import { AuthService } from '../../services/auth.service'
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { tap } from 'rxjs/operators'

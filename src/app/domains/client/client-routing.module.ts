@@ -11,7 +11,7 @@ const ROUTES: Routes = [
   {
     path: '',
     component: ClientListComponent,
-    canActivate: [AuthGuard],
+
     data: { title: 'RECIPES.PAGE.LIST.TOOLBAR' },
   },
   {

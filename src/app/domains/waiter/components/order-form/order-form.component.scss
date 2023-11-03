@@ -1,32 +1,32 @@
 .example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .example-full-width {
-    width: 100%;
-  }
-  
-  .example-radio-group {
-    display: inline-flex;
-    flex-direction: column;
-  }
-  
-  .example-radio-button {
-    margin: 5px;
-  }
-  
-  .example-selected-value {
-    margin: 15px 0;
-  }
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
 
-  .my-toolbar {
-    text-align: left;
-    padding-bottom: 20px
-  }
+.example-full-width {
+  width: 100%;
+}
 
-    .example-header-image {
-    background-image: url('../../../../assets/plate.png');
-    background-size: cover;
-  }
+.example-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.example-selected-value {
+  margin: 15px 0;
+}
+
+.my-toolbar {
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+.example-header-image {
+  background-image: url('../../../../../assets/images/plate.png');
+  background-size: cover;
+}

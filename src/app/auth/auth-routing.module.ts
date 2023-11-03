@@ -1,27 +1,27 @@
-import { NgModule } from "@angular/core"
-import { RouterModule, Routes } from "@angular/router"
-import { ProfileComponent } from "./components/profile/profile.component"
-import { LoginComponent } from "./components/login/login.component"
-import { AuthGuard } from "./services/guard.service"
-import { UsersComponent } from "./components/users/users.component"
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { ProfileComponent } from './components/profile/profile.component'
+import { LoginComponent } from './components/login/login.component'
+import { AuthGuard } from './services/guard.service'
+import { UsersComponent } from './components/users/users.component'
 
-const ROUTES: Routes = [
+const routes: Routes = [
   {
-    path: "login",
+    path: 'login',
     component: LoginComponent,
   },
   {
-    path: "profile",
+    path: 'profile',
     component: ProfileComponent,
   },
   {
-    path: "users",
+    path: 'users',
     component: UsersComponent,
   },
 ]
 
 @NgModule({
-  imports: [RouterModule.forChild(ROUTES)],
+  imports: [RouterModule.forChild(routes)],
   exports: [],
 })
 export class AuthRoutingModule {}
