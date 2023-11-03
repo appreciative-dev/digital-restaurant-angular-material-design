@@ -61,11 +61,7 @@ export class NavbarComponent implements OnInit {
     private messageService: MessageService,
     private daoDeliveryService: DaoDeliveryService,
     private translate: TranslateService
-  ) {
-    translate.addLangs(['es', 'pt', 'en'])
-    translate.setDefaultLang('es')
-    translate.use(translate.getBrowserLang().match(/es|en/) ? translate.getBrowserLang() : 'es')
-  }
+  ) {}
 
   ngOnInit(): void {
     this.initUserData()
@@ -73,10 +69,20 @@ export class NavbarComponent implements OnInit {
     this.checkClient()
     this.updateRedirectTitle()
     this.updateScreenSize()
+    this.initTranslate()
+  }
+
+  initTranslate() {
+    this.translate.addLangs(['es', 'pt', 'en'])
+    this.translate.setDefaultLang('es')
+    const lang = this.translate.getBrowserLang()
+    this.translate.use(lang.match(/es|en/) ? lang : 'es')
   }
 
   initUserData(): void {
     this.angularFireAuth.authState.subscribe((auth) => {
+      console.log(auth)
+
       if (auth) {
         this.hasFirebaseAuth = true
         this.daoEmployeeService.getDocument(auth.uid).subscribe((value) => {
@@ -96,17 +102,17 @@ export class NavbarComponent implements OnInit {
   }
 
   checkDelivery(): void {
-    this.daoDeliveryService.checkDelivery().subscribe((value) => {
-      if (value?.length) this.hasNewDelivery = true
-      else this.hasNewDelivery = false
-    })
+    // this.daoDeliveryService.checkDelivery().subscribe((value) => {
+    //   if (value?.length) this.hasNewDelivery = true
+    //   else this.hasNewDelivery = false
+    // })
   }
 
   checkClient(): void {
-    this.daoClient.getNewClients().subscribe((value) => {
-      if (value.length !== 0) this.hasNewClient = true
-      else this.hasNewClient = false
-    })
+    // this.daoClient.getNewClients().subscribe((value) => {
+    //   if (value.length !== 0) this.hasNewClient = true
+    //   else this.hasNewClient = false
+    // })
   }
 
   toggleDrawer(): void {

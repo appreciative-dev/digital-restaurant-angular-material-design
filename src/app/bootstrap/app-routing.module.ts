@@ -17,32 +17,32 @@ export const routes: Routes = [
       {
         path: 'employee',
         loadChildren: () => import('../domains/employee/employee.module').then((m) => m.EmployeeModule),
-        canActivate: [AuthGuard],
+        canActivate: [],
       },
       {
         path: 'admin',
         loadChildren: () => import('../domains/admin/admin.module').then((m) => m.AdminModule),
-        canActivate: [AuthGuard],
+        canActivate: [],
       },
       {
         path: 'waiter',
         loadChildren: () => import('../domains/waiter/waiter.module').then((m) => m.WaiterModule),
-        canActivate: [AuthGuard],
+        canActivate: [],
       },
       {
         path: 'client',
         loadChildren: () => import('../domains/client/client.module').then((m) => m.ClientModule),
-        canActivate: [AuthGuard],
+        canActivate: [],
       },
       {
         path: 'recipe',
         loadChildren: () => import('../domains/recipe/recipe.module').then((m) => m.RecipeModule),
-        canActivate: [AuthGuard],
+        canActivate: [],
       },
       {
         path: 'delivery',
         loadChildren: () => import('../domains/delivery/delivery.module').then((m) => m.DeliveryModule),
-        canActivate: [AuthGuard],
+        canActivate: [],
       },
     ],
   },

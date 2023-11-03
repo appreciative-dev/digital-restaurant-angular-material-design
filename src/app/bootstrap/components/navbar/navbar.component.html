@@ -1,21 +1,10 @@
-<mat-toolbar
-  [ngStyle]="{
-    'background-color': matDrawerContentBackgroundColor
-  }"
->
+<mat-toolbar [ngStyle]="{ 'background-color': matDrawerContentBackgroundColor }">
   <mat-toolbar-row>
-    <button
-      [ngStyle]="{
-        'margin-left': matToolbarRowButtonMargin
-      }"
-      mat-icon-button
-      (click)="drawer.toggle()"
-      onclick="this.blur()"
-    >
+    <button [ngStyle]="{ 'margin-left': matToolbarRowButtonMargin }" mat-icon-button (click)="drawer.toggle()" onclick="this.blur()">
       <mat-icon class="menu-icon" *ngIf="isUserUpdated">menu</mat-icon>
       <mat-spinner [diameter]="20" *ngIf="!isUserUpdated"></mat-spinner>
     </button>
-    <span class="toolbar-title">{{ toolBarTitle() | translate }}</span>
+    <!-- <span class="toolbar-title">{{ toolBarTitle() | translate }}</span> -->
     <span class="toolbar-spacer"></span>
     <button mat-icon-button *ngIf="hasEmployeeAuth && hasNewDelivery" routerLink="delivery" onclick="this.blur()">
       <mat-icon class="toolbar-action-icon">shopping_basket</mat-icon>
@@ -44,10 +33,10 @@
 
 <mat-drawer-container>
   <mat-drawer #drawer [mode]="mode" [opened]="isDesktopSize" class="mat-drawer-scrollbar">
-    <ng-container *ngIf="!hasEmployeeAuth && isUserUpdated">
+    <!-- <ng-container *ngIf="!hasEmployeeAuth && isUserUpdated">
       <div class="menu-title">{{ menuTitle }}</div>
       <div class="menu-subtitle">{{ menuSubtitle }}</div>
-    </ng-container>
+    </ng-container> -->
     <div class="menu-list-container">
       <ng-container *ngIf="hasEmployeeAuth && isUserUpdated">
         <ng-container *ngFor="let item of MENU_OPTIONS">
@@ -82,12 +71,7 @@
       </ng-container>
     </div>
   </mat-drawer>
-  <mat-drawer-content
-    [ngStyle]="{
-      height: routerOutletContainerHeight,
-      'background-color': matDrawerContentBackgroundColor
-    }"
-  >
+  <mat-drawer-content [ngStyle]="{ height: routerOutletContainerHeight, 'background-color': matDrawerContentBackgroundColor }">
     <ng-container *ngIf="isUserUpdated">
       <div class="router-outlet-container" [ngStyle]="{ 'background-color': routerOutletContainerBackgroundColor }">
         <div class="router-outlet-container-desktop" [ngClass]="{ 'router-outlet-container-mobile': !isDesktopSize }">
@@ -105,5 +89,5 @@
 </mat-drawer-container>
 
 <div style="display: none">
-  <img src="/assets/bell.png" />
+  <img src="/assets/images/bell.png" />
 </div>
