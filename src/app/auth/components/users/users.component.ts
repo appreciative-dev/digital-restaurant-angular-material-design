@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { DaoCambiosService } from '../../../admin/services/dao-cambios.service'
-import { MessageService } from 'src/app/services/dao-utils/message.service'
-import { BUSINESS_ROLE } from 'src/app/_bootstrap/utils/bootstrap.model'
 import { Observable } from 'rxjs'
 import { AuthService } from '../../services/auth.service'
 import { CdkTableDataSourceInput } from '@angular/cdk/table'
 import { AuthUser } from '../../services/auth.model'
 import * as moment from 'moment'
+import { AUTH_ROLE } from '../../utils/auth.role'
+import { MessageService } from 'src/app/shared/services/message.service'
+import { DaoCambiosService } from 'src/app/domains/admin/services/dao-cambios.service'
 
 @Component({
   selector: 'app-users',
@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
   lastItem
   isLoadingCambios: boolean
 
-  readonly ROLES = BUSINESS_ROLE
+  readonly ROLES = AUTH_ROLE
 
   userListObs: Observable<CdkTableDataSourceInput<AuthUser>>
   userSourceColumns = ['name', 'email', 'timestamp', 'action']
@@ -39,7 +39,7 @@ export class UsersComponent implements OnInit {
   }
 
   initUsers() {
-    this.userListObs = this.authService.getAllUsers()
+    // this.userListObs = this.authService.getAllUsers()
   }
 
   initServerData() {

@@ -1,16 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { MatTableDataSource } from '@angular/material/table'
-import { DaoClientService } from 'src/app/client/services/dao-client.service'
-import { DaoPlateOrderService } from 'src/app/waiter/services/dao-plateorder.service'
 import { AuthService } from '../../services/auth.service'
+import { DaoClientService } from 'src/app/domains/client/services/dao-client.service'
+import { DaoPlateOrderService } from 'src/app/domains/waiter/services/dao-plateorder.service'
 
 @Component({
   selector: 'app-profile',
@@ -69,11 +64,7 @@ export class ProfileComponent implements OnInit {
               this.form.get('address').setValue(this.clientData.address)
               this.form.get('phone').setValue(this.clientData.phone)
             }
-            this.daoOrder
-              .getOrdersByClient(this.clientData.id)
-              .subscribe(
-                (res) => (this.datasource = new MatTableDataSource(res))
-              )
+            this.daoOrder.getOrdersByClient(this.clientData.id).subscribe((res) => (this.datasource = new MatTableDataSource(res)))
           }
         })
       }

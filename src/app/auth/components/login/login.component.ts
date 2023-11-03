@@ -1,14 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
-import { DaoClientService } from 'src/app/client/services/dao-client.service'
 import { AuthService } from '../../services/auth.service'
-import { DaoEmployeeService } from 'src/app/employee/services/dao-employee.service'
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { tap } from 'rxjs/operators'
 import { AUTH_PROVIDER, AuthUser } from '../../services/auth.model'
@@ -48,15 +41,7 @@ export class LoginComponent implements OnInit {
       .subscribe()
   }
 
-  constructor(
-    private daoEmployeeService: DaoEmployeeService,
-    private daoClient: DaoClientService,
-    private authService: AuthService,
-    private angularFireAuth: AngularFireAuth,
-    private navRouter: Router,
-    private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private authService: AuthService, private angularFireAuth: AngularFireAuth, private cdr: ChangeDetectorRef) {}
 
   login(provider: AUTH_PROVIDER) {
     this.hasGoogleError = false
@@ -64,14 +49,10 @@ export class LoginComponent implements OnInit {
     this.hasFacebookSameAccountError = false
     switch (provider) {
       case AUTH_PROVIDER.GOOGLE:
-        this.authService
-          .loginWithGoogle()
-          .then((value) => this.verifyAuthUser(value))
+        this.authService.loginWithGoogle().then((value) => this.verifyAuthUser(value))
         break
       case AUTH_PROVIDER.FACEBOOK:
-        this.authService
-          .loginWithGoogle()
-          .then((value) => this.verifyAuthUser(value))
+        this.authService.loginWithGoogle().then((value) => this.verifyAuthUser(value))
         break
     }
   }
@@ -147,10 +128,6 @@ export class LoginComponent implements OnInit {
   }
 
   hasAuthError(): boolean {
-    return (
-      this.hasFacebookError ||
-      this.hasGoogleError ||
-      this.hasFacebookSameAccountError
-    )
+    return this.hasFacebookError || this.hasGoogleError || this.hasFacebookSameAccountError
   }
 }

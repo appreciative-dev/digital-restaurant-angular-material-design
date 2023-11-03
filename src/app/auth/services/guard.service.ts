@@ -1,6 +1,6 @@
 import { Router } from '@angular/router'
 import { Injectable } from '@angular/core'
-import { MessageService } from 'src/app/services/dao-utils/message.service'
+import { MessageService } from 'src/app/shared/services/message.service'
 
 @Injectable({
   providedIn: 'root',
